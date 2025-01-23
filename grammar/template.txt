@@ -1,0 +1,23 @@
+<dataframe_name> = LOAD DATA address=<csv_file_address>, time=<time_column_name>, value=<value_column_name>, train_end=<train_end_time>, test_end=<test_end_time>, visualize
+
+<dataframe_name> = LOAD TICKER <ticker_name>, interval=<interval>, start=<start_time>, end=<end_time>, value='Open'|'High'|'Low'|'Close'|'Adj Close', train_end=<train_end_time>, test_end=<test_end_time>, visualize
+
+ACF data=<dataframe_name>, lags=<lags_number>, type='plot'|'bar'
+
+PACF data=<dataframe_name>, lags=<lags_number>, type='plot'|'bar'
+
+TEST ADF <dataframe_name>
+
+MODEL AR(<p>) <dataframe_name>, {summary}, {visualize}, {rolling}
+
+MODEL MA(<q>) <dataframe_name>, {summary}, {visualize}, {rolling}
+
+MODEL ARMA(<p>, <q>) <dataframe_name>, {summary}, {visualize}, {rolling}
+
+MODEL ARIMA(<p>, <d>, <q>) <dataframe_name>, {summary}, {visualize}, {rolling}
+
+MODEL SARIMA(<p>, <d>, <q>)(<P>, <D>, <Q>, <s>) <dataframe_name>, {summary}, {visualize}, {rolling}
+
+MODEL ARCH(<p>) <dataframe_name>, {summary}, {visualize}, {rolling}
+
+MODEL GARCH(<p>, <q>) <dataframe_name>, {summary}, {visualize}, {rolling}
