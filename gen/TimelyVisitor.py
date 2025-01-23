@@ -1,4 +1,4 @@
-# Generated from C:/Users/Amirhossein/Desktop/Compiler/antlr_projects/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
+# Generated from C:/Users/PARSA/Desktop/elmos/Semesters/S7/Compiler/Programs/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .TimelyParser import TimelyParser
@@ -54,6 +54,16 @@ class TimelyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by TimelyParser#save_model.
+    def visitSave_model(self, ctx:TimelyParser.Save_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#save_chart.
+    def visitSave_chart(self, ctx:TimelyParser.Save_chartContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by TimelyParser#price_value.
     def visitPrice_value(self, ctx:TimelyParser.Price_valueContext):
         return self.visitChildren(ctx)
@@ -66,6 +76,16 @@ class TimelyVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TimelyParser#ticker_name.
     def visitTicker_name(self, ctx:TimelyParser.Ticker_nameContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#model_name.
+    def visitModel_name(self, ctx:TimelyParser.Model_nameContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#chart_name.
+    def visitChart_name(self, ctx:TimelyParser.Chart_nameContext):
         return self.visitChildren(ctx)
 
 

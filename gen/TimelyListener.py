@@ -1,4 +1,4 @@
-# Generated from C:/Users/Amirhossein/Desktop/Compiler/antlr_projects/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
+# Generated from C:/Users/PARSA/Desktop/elmos/Semesters/S7/Compiler/Programs/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .TimelyParser import TimelyParser
@@ -89,6 +89,24 @@ class TimelyListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by TimelyParser#save_model.
+    def enterSave_model(self, ctx:TimelyParser.Save_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#save_model.
+    def exitSave_model(self, ctx:TimelyParser.Save_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#save_chart.
+    def enterSave_chart(self, ctx:TimelyParser.Save_chartContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#save_chart.
+    def exitSave_chart(self, ctx:TimelyParser.Save_chartContext):
+        pass
+
+
     # Enter a parse tree produced by TimelyParser#price_value.
     def enterPrice_value(self, ctx:TimelyParser.Price_valueContext):
         pass
@@ -113,6 +131,24 @@ class TimelyListener(ParseTreeListener):
 
     # Exit a parse tree produced by TimelyParser#ticker_name.
     def exitTicker_name(self, ctx:TimelyParser.Ticker_nameContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#model_name.
+    def enterModel_name(self, ctx:TimelyParser.Model_nameContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#model_name.
+    def exitModel_name(self, ctx:TimelyParser.Model_nameContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#chart_name.
+    def enterChart_name(self, ctx:TimelyParser.Chart_nameContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#chart_name.
+    def exitChart_name(self, ctx:TimelyParser.Chart_nameContext):
         pass
 
 

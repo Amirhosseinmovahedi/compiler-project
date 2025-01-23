@@ -1,7 +1,6 @@
 from Repository.ast import AST
 from Repository.make_ast_subtree import make_ast_subtree
 from gen.TimelyListener import TimelyListener
-from gen.TimelyParser import TimelyParser
 
 
 class CustomASTListener(TimelyListener):
@@ -19,6 +18,7 @@ class CustomASTListener(TimelyListener):
         make_ast_subtree(self.ast, ctx, "program", keep_node=True)
 
     def exitDataframeLoadStatement(self, ctx):
+        ctx.compound = True
         make_ast_subtree(self.ast, ctx, "dataframeLoadStatement", keep_node=True)
 
     def exitTickerLoadStatement(self, ctx):

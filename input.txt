@@ -3,4 +3,4 @@ newdata = { load ticker testticker, interval = h, start = 2024-10-08, end= 2024-
 acf data = mydata, lags = 3, type = Bar
 pacf data = mydata, lags = 3, type = Bar
 test adf mydata
-model SARIMA (p=10, q=12, d=2)(P=2, Q=3, D=5) mydata, summary = True, visualize = False
+model SARIMA (p=10, q=12, d=2)(P=2, Q=3, D=5) mydata, summary = True, visualize = False, save model as "sa", save chart as "my_chart"

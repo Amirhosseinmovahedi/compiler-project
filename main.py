@@ -6,7 +6,7 @@ from Repository.ast_to_networkx_graph import show_ast
 from Repository.post_order_ast_traverser import PostOrderASTTraverser
 from gen.TimelyLexer import TimelyLexer
 from gen.TimelyParser import TimelyParser
-
+from Code.CodeGenerator import CodeGenerator
 
 def main(args):
     stream = FileStream(args.file, encoding='utf8')
@@ -24,6 +24,10 @@ def main(args):
     traversal_dict = post_order_ast_traverser.traverse_ast(normal_ast.root)
     traversal = [item['label'] for item in traversal_dict]
     print(traversal)
+    code_generator = CodeGenerator()
+    code_generator.generate(traversal)
+
+    print('output.py generated successfully')
 
 
 if __name__ == '__main__':

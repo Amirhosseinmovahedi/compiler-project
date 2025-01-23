@@ -33,15 +33,17 @@ testStatement
     ;
 
 modelStatement
-    : 'model' 'AR' '(' 'p' '=' p ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
+    : 'model' 'AR' '(' 'p' '=' p ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?
     | 'model' 'MA' '(' 'q' '=' q ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
     | 'model' 'ARMA' '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
     | 'model' 'ARIMA' '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
-    | 'model' 'SARIMA' '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
+    | 'model' 'SARIMA' '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?
     | 'model' 'ARCH' '(' 'p' '=' p ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
     | 'model' 'GARCH' '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
     ;
 
+save_model: 'save' 'model';
+save_chart: 'save' 'chart';
 price_value: 'Open' | 'High' | 'Low' | 'Close' | 'Adj Close';
 csv_address: ID;
 ticker_name: ID;
