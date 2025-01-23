@@ -5,7 +5,20 @@ from gen.TimelyListener import TimelyListener
 
 class CustomASTListener(TimelyListener):
     def __init__(self, rule_names):
-        self.overridden_rules = ['dataframeLoadStatement', 'tickerLoadStatement', 'acfStatement', 'pacfStatement', 'testStatement', 'modelStatement', 'program']
+        self.overridden_rules = ['dataframeLoadStatement',
+                                 'tickerLoadStatement',
+                                 'acfStatement',
+                                 'pacfStatement',
+                                 'testStatement',
+                                 'program',
+                                 'ar_model',
+                                 'ma_model',
+                                 'arma_model',
+                                 'arima_model',
+                                 'sarima_model',
+                                 'arch_model',
+                                 'garch_model',
+                                 ]
         self.rule_names = rule_names
         self.ast = AST()
 
@@ -22,6 +35,7 @@ class CustomASTListener(TimelyListener):
         make_ast_subtree(self.ast, ctx, "dataframeLoadStatement", keep_node=True)
 
     def exitTickerLoadStatement(self, ctx):
+        ctx.compound = True
         make_ast_subtree(self.ast, ctx, "tickerLoadStatement", keep_node=True)
 
     def exitAcfStatement(self, ctx):
@@ -33,5 +47,31 @@ class CustomASTListener(TimelyListener):
     def exitTestStatement(self, ctx):
         make_ast_subtree(self.ast, ctx, "testStatement", keep_node=True)
 
-    def exitModelStatement(self, ctx):
-        make_ast_subtree(self.ast, ctx, "modelStatement", keep_node=True)
+    def exitAr_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "ar_model", keep_node=True)
+
+    def exitMa_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "ma_model", keep_node=True)
+
+    def exitArma_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "arma_model", keep_node=True)
+
+    def exitArima_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "arima_model", keep_node=True)
+
+    def exitSarima_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "sarima_model", keep_node=True)
+
+    def exitArch_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "arch_model", keep_node=True)
+
+    def exitGarch_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "garch_model", keep_node=True)
+

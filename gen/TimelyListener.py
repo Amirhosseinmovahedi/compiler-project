@@ -1,4 +1,4 @@
-# Generated from C:/Users/PARSA/Desktop/elmos/Semesters/S7/Compiler/Programs/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
+# Generated from C:/Users/Amirhossein/Desktop/Compiler/antlr_projects/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .TimelyParser import TimelyParser
@@ -89,6 +89,69 @@ class TimelyListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by TimelyParser#ar_model.
+    def enterAr_model(self, ctx:TimelyParser.Ar_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#ar_model.
+    def exitAr_model(self, ctx:TimelyParser.Ar_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#ma_model.
+    def enterMa_model(self, ctx:TimelyParser.Ma_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#ma_model.
+    def exitMa_model(self, ctx:TimelyParser.Ma_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#arma_model.
+    def enterArma_model(self, ctx:TimelyParser.Arma_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#arma_model.
+    def exitArma_model(self, ctx:TimelyParser.Arma_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#arima_model.
+    def enterArima_model(self, ctx:TimelyParser.Arima_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#arima_model.
+    def exitArima_model(self, ctx:TimelyParser.Arima_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#sarima_model.
+    def enterSarima_model(self, ctx:TimelyParser.Sarima_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#sarima_model.
+    def exitSarima_model(self, ctx:TimelyParser.Sarima_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#arch_model.
+    def enterArch_model(self, ctx:TimelyParser.Arch_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#arch_model.
+    def exitArch_model(self, ctx:TimelyParser.Arch_modelContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#garch_model.
+    def enterGarch_model(self, ctx:TimelyParser.Garch_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#garch_model.
+    def exitGarch_model(self, ctx:TimelyParser.Garch_modelContext):
+        pass
+
+
     # Enter a parse tree produced by TimelyParser#save_model.
     def enterSave_model(self, ctx:TimelyParser.Save_modelContext):
         pass
@@ -116,12 +179,12 @@ class TimelyListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TimelyParser#csv_address.
-    def enterCsv_address(self, ctx:TimelyParser.Csv_addressContext):
+    # Enter a parse tree produced by TimelyParser#coin_name.
+    def enterCoin_name(self, ctx:TimelyParser.Coin_nameContext):
         pass
 
-    # Exit a parse tree produced by TimelyParser#csv_address.
-    def exitCsv_address(self, ctx:TimelyParser.Csv_addressContext):
+    # Exit a parse tree produced by TimelyParser#coin_name.
+    def exitCoin_name(self, ctx:TimelyParser.Coin_nameContext):
         pass
 
 
@@ -212,6 +275,15 @@ class TimelyListener(ParseTreeListener):
 
     # Exit a parse tree produced by TimelyParser#summary.
     def exitSummary(self, ctx:TimelyParser.SummaryContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#visualize_bool.
+    def enterVisualize_bool(self, ctx:TimelyParser.Visualize_boolContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#visualize_bool.
+    def exitVisualize_bool(self, ctx:TimelyParser.Visualize_boolContext):
         pass
 
 

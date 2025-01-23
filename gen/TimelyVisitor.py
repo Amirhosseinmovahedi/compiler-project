@@ -1,4 +1,4 @@
-# Generated from C:/Users/PARSA/Desktop/elmos/Semesters/S7/Compiler/Programs/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
+# Generated from C:/Users/Amirhossein/Desktop/Compiler/antlr_projects/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .TimelyParser import TimelyParser
@@ -54,6 +54,41 @@ class TimelyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by TimelyParser#ar_model.
+    def visitAr_model(self, ctx:TimelyParser.Ar_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#ma_model.
+    def visitMa_model(self, ctx:TimelyParser.Ma_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#arma_model.
+    def visitArma_model(self, ctx:TimelyParser.Arma_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#arima_model.
+    def visitArima_model(self, ctx:TimelyParser.Arima_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#sarima_model.
+    def visitSarima_model(self, ctx:TimelyParser.Sarima_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#arch_model.
+    def visitArch_model(self, ctx:TimelyParser.Arch_modelContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#garch_model.
+    def visitGarch_model(self, ctx:TimelyParser.Garch_modelContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by TimelyParser#save_model.
     def visitSave_model(self, ctx:TimelyParser.Save_modelContext):
         return self.visitChildren(ctx)
@@ -69,8 +104,8 @@ class TimelyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TimelyParser#csv_address.
-    def visitCsv_address(self, ctx:TimelyParser.Csv_addressContext):
+    # Visit a parse tree produced by TimelyParser#coin_name.
+    def visitCoin_name(self, ctx:TimelyParser.Coin_nameContext):
         return self.visitChildren(ctx)
 
 
@@ -121,6 +156,11 @@ class TimelyVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TimelyParser#summary.
     def visitSummary(self, ctx:TimelyParser.SummaryContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#visualize_bool.
+    def visitVisualize_bool(self, ctx:TimelyParser.Visualize_boolContext):
         return self.visitChildren(ctx)
 
 

@@ -13,11 +13,11 @@ statement
     | modelStatement;
 
 dataframeLoadStatement
-    : dataframe_name '=' '{' 'load' 'data' csv_address ',' 'time' '=' time ',' 'value' '=' value ',' 'trainEnd' '=' train_end ',' 'testEnd' '=' test_end (',' 'visualize' '=' visualize)  '}'
+    : 'load' 'data' dataframe_name 'as' dataframe_name ',' 'time' '=' time ',' 'value' '=' value ',' 'trainEnd' '=' train_end ',' 'testEnd' '=' test_end (',' 'visualize' '=' visualize_bool)?
     ;
 
 tickerLoadStatement
-    : dataframe_name '=' '{' 'load' 'ticker' ticker_name ',' 'interval' '=' interval ',' 'start' '=' start_time ',' 'end' '=' end_time ',' 'value' '=' price_value ',' 'trainEnd' '=' train_end ',' 'testEnd' '=' test_end (',' 'visualize' '=' visualize)  '}'
+    : 'load' 'ticker' coin_name 'as' dataframe_name ',' 'interval' '=' interval ',' 'start' '=' start_time ',' 'end' '=' end_time ',' 'value' '=' price_value ',' 'trainEnd' '=' train_end ',' 'testEnd' '=' test_end (',' 'visualize' '=' visualize_bool)?
     ;
 
 acfStatement
@@ -33,19 +33,30 @@ testStatement
     ;
 
 modelStatement
-    : 'model' 'AR' '(' 'p' '=' p ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?
-    | 'model' 'MA' '(' 'q' '=' q ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
-    | 'model' 'ARMA' '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
-    | 'model' 'ARIMA' '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
-    | 'model' 'SARIMA' '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?
-    | 'model' 'ARCH' '(' 'p' '=' p ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
-    | 'model' 'GARCH' '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' 'summary' '=' summary) (',' 'visualize' '=' visualize) (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?
+    : ar_model
+    | ma_model
+    | arma_model
+    | arima_model
+    | sarima_model
+    | arch_model
+    | garch_model
     ;
+
+ar_model: 'model' 'AR' dataframe_name '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+ma_model: 'model' 'MA' dataframe_name '(' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
+arma_model: 'model' 'ARMA' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
+arima_model: 'model' 'ARIMA' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
+sarima_model: 'model' 'SARIMA' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+arch_model: 'model' 'ARCH' dataframe_name '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
+garch_model: 'model' 'GARCH' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
+
+
+
 
 save_model: 'save' 'model';
 save_chart: 'save' 'chart';
 price_value: 'Open' | 'High' | 'Low' | 'Close' | 'Adj Close';
-csv_address: ID;
+coin_name: STRING;
 ticker_name: ID;
 model_name: STRING;
 chart_name: STRING;
@@ -54,9 +65,10 @@ value: STRING;
 dataframe_name: ID;
 train_end: DATE;
 test_end: DATE;
-visualize: BOOL;
-summary: BOOL;
-interval: 's' | 'm' | 'h' | 'd' | 'M' | 'y';
+visualize: 'visualize';
+summary: 'summary';
+visualize_bool: BOOL;
+interval: STRING;
 start_time: DATE;
 end_time: DATE;
 lags: INT;
