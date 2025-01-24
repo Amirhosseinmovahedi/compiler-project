@@ -1,4 +1,4 @@
-# Generated from C:/Users/Amirhossein/Desktop/Compiler/antlr_projects/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
+# Generated from D:/Compiler/project/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .TimelyParser import TimelyParser
@@ -266,6 +266,11 @@ class TimelyVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TimelyParser#ds.
     def visitDs(self, ctx:TimelyParser.DsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#s.
+    def visitS(self, ctx:TimelyParser.SContext):
         return self.visitChildren(ctx)
 
 

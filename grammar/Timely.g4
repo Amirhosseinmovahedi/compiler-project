@@ -46,8 +46,8 @@ modelStatement
 ar_model: 'model' 'AR' model '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 ma_model: 'model' 'MA' model '(' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 arma_model: 'model' 'ARMA' model '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
-arima_model: 'model' 'ARIMA' model '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
-sarima_model: 'model' 'SARIMA' model '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+arima_model: 'model' 'ARIMA' model '(' 'p' '=' p ',' 'd' '=' d ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+sarima_model: 'model' 'SARIMA' model '(' 'p' '=' p ',' 'd' '=' d ',' 'q' '=' q ')''(' 'P' '=' ps ',' 'D' '=' ds ',' 'Q' '=' qs ',' 's' '=' s')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 arch_model: 'model' 'ARCH' model '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 garch_model: 'model' 'GARCH' model '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 lstm_model: 'model' 'lstm' model '(' 'n_layers' '=' n_layers ','  'batch_size' '=' batch_size ',' 'n_epochs' '=' n_epochs ',' 'drop_out' '=' drop_out ',' 'lstm_neurons' '=' lstm_neurons ',' 'dense_neurons' '=' lstm_neurons ',' 'optimizer' '=' optimizer ',' 'loss' '=' loss ',' 'seq_length' '=' seq_length ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
@@ -89,6 +89,7 @@ d: INT;
 ps: INT;
 qs: INT;
 ds: INT;
+s: INT;
 
 
 fragment YEAR: [0-9][0-9][0-9][0-9];

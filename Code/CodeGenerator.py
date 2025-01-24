@@ -46,8 +46,8 @@ class CodeGenerator:
         elif item == "ar_model":
             self.generate_ar_model()
 
-        elif item == "mr_model":
-            self.generate_mr_model()
+        elif item == "ma_model":
+            self.generate_ma_model()
 
         elif item == "arma_model":
             self.generate_arma_model()
@@ -195,17 +195,234 @@ plt.show()\n\n""")
     def generate_dataframeLoadStatement(self):
         pass # TODO
 
-    def generate_mr_model(self):
-        pass # TODO
+    def generate_ma_model(self):
+        temp_model_stack = []
+        current_code = self.operand_stack.pop()
+        if current_code != 'end_scope_operator':
+            self.code_stack.append(current_code)
+            return
+        while current_code != 'begin_scope_operator':
+            current_code = self.operand_stack.pop()
+            temp_model_stack.append(current_code)
+        temp_model_stack.pop()
+        model_name = temp_model_stack.pop()
+        q = temp_model_stack.pop()
+        dataframe_name = temp_model_stack.pop()
+
+        save_statement = ''
+        if "save_chart" in temp_model_stack:
+            save_chart_index = temp_model_stack.index("save_chart") - 1
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+
+        self.code_stack.append("#====================MA MODEL====================\n\n")
+
+        self.code_stack.append(f"""{model_name} = ARIMA(train_{dataframe_name}, order=(0, 0, {q}))
+{model_name}_fitted = {model_name}.fit()
+
+ar_predictions_{model_name} = {model_name}_fitted.predict(start=len(train_{dataframe_name}), end=len(train_{dataframe_name}) + len(test_{dataframe_name}) - 1)
+
+{model_name}_rmse = np.sqrt(mean_squared_error(test_{dataframe_name}, ar_predictions_{model_name}))
+print("RMSE for MA model:", {model_name}_rmse)\n\n""")
+
+        self.import_codes.append("from statsmodels.tsa.arima.model import ARIMA")
+        self.import_codes.append("import numpy as np")
+        self.import_codes.append("from sklearn.metrics import mean_squared_error")
+
+        if len(temp_model_stack) > 0:
+            if 'summary' in temp_model_stack:
+                self.code_stack.append(f"print({model_name}_fitted.summary())\n\n")
+
+            if 'visualize' in temp_model_stack:
+                self.code_stack.append(f"""plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), test_{dataframe_name}, label="Actual", color="blue")
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), ar_predictions_{model_name}, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+{save_statement}
+plt.show()\n\n""")
+
+                self.import_codes.append("import matplotlib.pyplot as plt")
+
+        if "save_model" in temp_model_stack:
+            index = temp_model_stack.index("save_model") - 1
+            self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
 
     def generate_arma_model(self):
-        pass # TODO
+        temp_model_stack = []
+        current_code = self.operand_stack.pop()
+        if current_code != 'end_scope_operator':
+            self.code_stack.append(current_code)
+            return
+        while current_code != 'begin_scope_operator':
+            current_code = self.operand_stack.pop()
+            temp_model_stack.append(current_code)
+        temp_model_stack.pop()
+        model_name = temp_model_stack.pop()
+        p = temp_model_stack.pop()
+        q = temp_model_stack.pop()
+        dataframe_name = temp_model_stack.pop()
+
+        save_statement = ''
+        if "save_chart" in temp_model_stack:
+            save_chart_index = temp_model_stack.index("save_chart") - 1
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+
+        self.code_stack.append("#====================ARMA MODEL====================\n\n")
+
+        self.code_stack.append(f"""{model_name} = ARIMA(train_{dataframe_name}, order=({p}, 0, {q}))
+{model_name}_fitted = {model_name}.fit()
+
+ar_predictions_{model_name} = {model_name}_fitted.predict(start=len(train_{dataframe_name}), end=len(train_{dataframe_name}) + len(test_{dataframe_name}) - 1)
+
+{model_name}_rmse = np.sqrt(mean_squared_error(test_{dataframe_name}, ar_predictions_{model_name}))
+print("RMSE for ARMA model:", {model_name}_rmse)\n\n""")
+
+        self.import_codes.append("from statsmodels.tsa.arima.model import ARIMA")
+        self.import_codes.append("import numpy as np")
+        self.import_codes.append("from sklearn.metrics import mean_squared_error")
+
+        if len(temp_model_stack) > 0:
+            if 'summary' in temp_model_stack:
+                self.code_stack.append(f"print({model_name}_fitted.summary())\n\n")
+
+            if 'visualize' in temp_model_stack:
+                self.code_stack.append(f"""plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), test_{dataframe_name}, label="Actual", color="blue")
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), ar_predictions_{model_name}, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+{save_statement}
+plt.show()\n\n""")
+
+                self.import_codes.append("import matplotlib.pyplot as plt")
+
+        if "save_model" in temp_model_stack:
+            index = temp_model_stack.index("save_model") - 1
+            self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
 
     def generate_arima_model(self):
-        pass # TODO
+        temp_model_stack = []
+        current_code = self.operand_stack.pop()
+        if current_code != 'end_scope_operator':
+            self.code_stack.append(current_code)
+            return
+        while current_code != 'begin_scope_operator':
+            current_code = self.operand_stack.pop()
+            temp_model_stack.append(current_code)
+        temp_model_stack.pop()
+        model_name = temp_model_stack.pop()
+        p = temp_model_stack.pop()
+        d = temp_model_stack.pop()
+        q = temp_model_stack.pop()
+        dataframe_name = temp_model_stack.pop()
+
+        save_statement = ''
+        if "save_chart" in temp_model_stack:
+            save_chart_index = temp_model_stack.index("save_chart") - 1
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+
+        self.code_stack.append("#====================ARIMA MODEL====================\n\n")
+
+        self.code_stack.append(f"""{model_name} = ARIMA(train_{dataframe_name}, order=({p}, {d}, {q}))
+{model_name}_fitted = {model_name}.fit()
+
+ar_predictions_{model_name} = {model_name}_fitted.predict(start=len(train_{dataframe_name}), end=len(train_{dataframe_name}) + len(test_{dataframe_name}) - 1)
+
+{model_name}_rmse = np.sqrt(mean_squared_error(test_{dataframe_name}, ar_predictions_{model_name}))
+print("RMSE for ARIMA model:", {model_name}_rmse)\n\n""")
+
+        self.import_codes.append("from statsmodels.tsa.arima.model import ARIMA")
+        self.import_codes.append("import numpy as np")
+        self.import_codes.append("from sklearn.metrics import mean_squared_error")
+
+        if len(temp_model_stack) > 0:
+            if 'summary' in temp_model_stack:
+                self.code_stack.append(f"print({model_name}_fitted.summary())\n\n")
+
+            if 'visualize' in temp_model_stack:
+                self.code_stack.append(f"""plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), test_{dataframe_name}, label="Actual", color="blue")
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), ar_predictions_{model_name}, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+{save_statement}
+plt.show()\n\n""")
+
+                self.import_codes.append("import matplotlib.pyplot as plt")
+
+        if "save_model" in temp_model_stack:
+            index = temp_model_stack.index("save_model") - 1
+            self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
 
     def generate_sarima_model(self):
-        pass # TODO
+        temp_model_stack = []
+        current_code = self.operand_stack.pop()
+        if current_code != 'end_scope_operator':
+            self.code_stack.append(current_code)
+            return
+        while current_code != 'begin_scope_operator':
+            current_code = self.operand_stack.pop()
+            temp_model_stack.append(current_code)
+        temp_model_stack.pop()
+        model_name = temp_model_stack.pop()
+        p = temp_model_stack.pop()
+        d = temp_model_stack.pop()
+        q = temp_model_stack.pop()
+        ps = temp_model_stack.pop()
+        ds = temp_model_stack.pop()
+        qs = temp_model_stack.pop()
+        s = temp_model_stack.pop()
+        dataframe_name = temp_model_stack.pop()
+
+        save_statement = ''
+        if "save_chart" in temp_model_stack:
+            save_chart_index = temp_model_stack.index("save_chart") - 1
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+
+        self.code_stack.append("#====================SARIMA MODEL====================\n\n")
+
+        self.code_stack.append(f"""{model_name} = SARIMAX(train_{dataframe_name}, order=({p}, {d}, {q}), seasonal_order=({ps}, {ds}, {qs}, {s}))
+{model_name}_fitted = {model_name}.fit()
+
+ar_predictions_{model_name} = {model_name}_fitted.predict(start=len(train_{dataframe_name}), end=len(train_{dataframe_name}) + len(test_{dataframe_name}) - 1)
+
+{model_name}_rmse = np.sqrt(mean_squared_error(test_{dataframe_name}, ar_predictions_{model_name}))
+print("RMSE for SARIMA model:", {model_name}_rmse)\n\n""")
+
+        self.import_codes.append("from statsmodels.tsa.statespace.sarimax import SARIMAX")
+        self.import_codes.append("import numpy as np")
+        self.import_codes.append("from sklearn.metrics import mean_squared_error")
+
+        if len(temp_model_stack) > 0:
+            if 'summary' in temp_model_stack:
+                self.code_stack.append(f"print({model_name}_fitted.summary())\n\n")
+
+            if 'visualize' in temp_model_stack:
+                self.code_stack.append(f"""plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), test_{dataframe_name}, label="Actual", color="blue")
+plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), ar_predictions_{model_name}, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+{save_statement}
+plt.show()\n\n""")
+
+                self.import_codes.append("import matplotlib.pyplot as plt")
+
+        if "save_model" in temp_model_stack:
+            index = temp_model_stack.index("save_model") - 1
+            self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
 
     def generate_arch_model(self):
         pass # TODO

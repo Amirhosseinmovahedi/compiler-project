@@ -1,4 +1,4 @@
-# Generated from C:/Users/Amirhossein/Desktop/Compiler/antlr_projects/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
+# Generated from D:/Compiler/project/compiler-project/grammar/Timely.g4 by ANTLR 4.13.1
 from antlr4 import *
 if "." in __name__:
     from .TimelyParser import TimelyParser
@@ -473,6 +473,15 @@ class TimelyListener(ParseTreeListener):
 
     # Exit a parse tree produced by TimelyParser#ds.
     def exitDs(self, ctx:TimelyParser.DsContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#s.
+    def enterS(self, ctx:TimelyParser.SContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#s.
+    def exitS(self, ctx:TimelyParser.SContext):
         pass
 
 

@@ -15,3 +15,15 @@ model lstm my_model (n_layers=4,
 
 # an AR model example
 model AR my_ar_model (p=5) my_data, summary, visualize
+
+# an MA model example
+model MA my_ma_model (q=2) my_data, summary, visualize
+
+# an ARMA model example
+model ARMA my_arma_model (p=5, q=2) my_data, summary, visualize
+
+# an ARIMA model example
+model ARIMA my_arima_model (p=5, d=1, q=2) my_data, summary, visualize
+
+# an SARIMA model example
+model SARIMA my_sarima_model (p=5, d=1, q=2)(P=1, D=0, Q=2, s=12) my_data, summary, visualize

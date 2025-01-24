@@ -4,6 +4,7 @@ import yfinance as yf
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.models import Sequential
 
@@ -100,6 +101,98 @@ print(my_ar_model_fitted.summary())
 plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_ar_model, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+#====================MA MODEL====================
+
+my_ma_model = ARIMA(train_my_data, order=(0, 0, 2))
+my_ma_model_fitted = my_ma_model.fit()
+
+ar_predictions_my_ma_model = my_ma_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+
+my_ma_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_ma_model))
+print("RMSE for MA model:", my_ma_model_rmse)
+
+print(my_ma_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_ma_model, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+#====================ARMA MODEL====================
+
+my_arma_model = ARIMA(train_my_data, order=(5, 0, 2))
+my_arma_model_fitted = my_arma_model.fit()
+
+ar_predictions_my_arma_model = my_arma_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+
+my_arma_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_arma_model))
+print("RMSE for ARMA model:", my_arma_model_rmse)
+
+print(my_arma_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_arma_model, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+#====================ARIMA MODEL====================
+
+my_arima_model = ARIMA(train_my_data, order=(5, 1, 2))
+my_arima_model_fitted = my_arima_model.fit()
+
+ar_predictions_my_arima_model = my_arima_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+
+my_arima_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_arima_model))
+print("RMSE for ARIMA model:", my_arima_model_rmse)
+
+print(my_arima_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_arima_model, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+#====================SARIMA MODEL====================
+
+my_sarima_model = SARIMAX(train_my_data, order=(5, 1, 2), seasonal_order=(1, 0, 2, 12))
+my_sarima_model_fitted = my_sarima_model.fit()
+
+ar_predictions_my_sarima_model = my_sarima_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+
+my_sarima_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_sarima_model))
+print("RMSE for SARIMA model:", my_sarima_model_rmse)
+
+print(my_sarima_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_sarima_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
 plt.title("Actual vs Predicted Values")
