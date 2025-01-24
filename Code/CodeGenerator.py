@@ -283,7 +283,25 @@ plt.show()\n\n''')
 
 
     def generate_pacfStatement(self):
-        pass # TODO
+        plot_type = self.operand_stack.pop()
+        lags = self.operand_stack.pop()
+        dataframe_name = self.operand_stack.pop()
+
+        self.code_stack.append(f"""#====================PACF PLOT====================\n\n""")
+
+        if plot_type == 'Bar':
+            self.code_stack.append(f'''plot_pacf({dataframe_name}, lags={lags}, title='PACF of {dataframe_name}')
+plt.show()\n\n''')
+            self.import_codes.append("from statsmodels.graphics.tsaplots import plot_pacf")
+        elif plot_type == 'Plot':
+            self.code_stack.append(f'''pacf_vals = pacf({dataframe_name})
+num_lags = {lags}
+plt.bar(range(num_lags), pacf_vals[:num_lags])
+plt.title('PACF of {dataframe_name}')
+plt.show()\n\n''')
+            self.import_codes.append("from statsmodels.tsa.stattools import pacf")
+        else:
+            raise ValueError('incorrect value for type argument')
 
     def generate_testStatement(self):
         dataframe_name = self.operand_stack.pop()

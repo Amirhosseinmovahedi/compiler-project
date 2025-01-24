@@ -6,3 +6,6 @@ test adf downloaded_data
 
 acf data = csv_data, lags = 100, type = Bar
 acf data = downloaded_data, lags = 10, type = Plot
+
+pacf data = csv_data, lags = 50, type = Bar
+pacf data = downloaded_data, lags = 5, type = Plot
