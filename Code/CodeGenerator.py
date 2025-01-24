@@ -81,7 +81,9 @@ class CodeGenerator:
 
     def generate_program(self):
         res = ''
-        for i in list(set(self.import_codes)):
+        self.import_codes = list(set(self.import_codes))
+        self.import_codes.sort(key=lambda x: (tuple(-ord(c) for c in x.split()[0]) ,x.split()[1]))
+        for i in self.import_codes:
             res += i + '\n'
 
         res += '\n\n'
@@ -161,6 +163,8 @@ plt.show()\n\n""")
         position = temp_ticker_stack.pop()
         train_end = temp_ticker_stack.pop()
         test_end = temp_ticker_stack.pop()
+
+        self.code_stack.append("#====================TICKER LOAD====================\n\n")
 
         self.code_stack.append(f"""{dataframe_name} = yf.download({coin_name}, start="{start}", end="{end}", interval={interval})
 {dataframe_name} = {dataframe_name}[["{position}"]]
@@ -256,8 +260,7 @@ plt.show()\n\n""")
 
         self.code_stack.append("#====================LSTM MODEL====================\n\n")
 
-        self.code_stack.append(f"""
-scaler_{model_name} = MinMaxScaler(feature_range=(0, 1))
+        self.code_stack.append(f"""scaler_{model_name} = MinMaxScaler(feature_range=(0, 1))
 train_scaled_{model_name} = scaler_{model_name}.fit_transform(train_{dataframe_name})
 test_scaled_{model_name} = scaler_{model_name}.transform(test_{dataframe_name})
 

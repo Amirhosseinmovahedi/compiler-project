@@ -1,12 +1,14 @@
-from sklearn.preprocessing import MinMaxScaler
-import numpy as np
-from sklearn.metrics import mean_squared_error
-from tensorflow.keras.layers import LSTM, Dense, Dropout
-import yfinance as yf
 import matplotlib.pyplot as plt
+import numpy as np
+import yfinance as yf
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.arima.model import ARIMA
+from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.models import Sequential
 
+
+#====================TICKER LOAD====================
 
 my_data = yf.download("BTC-USD", start="2020-01-01", end="2023-01-01", interval="1d")
 my_data = my_data[["Close"]]
@@ -19,7 +21,6 @@ train_my_data = my_data.loc[:train_end_date]
 test_my_data = my_data.loc[train_end_date:test_end_date]
 
 #====================LSTM MODEL====================
-
 
 scaler_my_model = MinMaxScaler(feature_range=(0, 1))
 train_scaled_my_model = scaler_my_model.fit_transform(train_my_data)
