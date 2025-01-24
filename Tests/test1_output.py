@@ -20,6 +20,16 @@ test_end_date = "2023-01-01"
 train_my_data = my_data.loc[:train_end_date]
 test_my_data = my_data.loc[train_end_date:test_end_date]
 
+plt.figure(figsize=(12, 6))
+plt.plot(train_my_data.index, train_my_data["Close"], label="Training Data", color="blue")
+plt.plot(test_my_data.index, test_my_data["Close"], label="Testing Data", color="orange")
+plt.title("BTC-USD Close Price (Training and Testing Data)")
+plt.xlabel("Date")
+plt.ylabel("Price (USD)")
+plt.legend()
+plt.grid(True)
+plt.show()
+
 #====================LSTM MODEL====================
 
 scaler_my_model = MinMaxScaler(feature_range=(0, 1))

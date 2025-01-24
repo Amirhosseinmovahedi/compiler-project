@@ -1,0 +1,1 @@
+load data my_data as my_data, time = "time", value = "Close", trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = True

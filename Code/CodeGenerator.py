@@ -193,7 +193,55 @@ plt.show()\n\n""")
         self.import_codes.append("import yfinance as yf")
 
     def generate_dataframeLoadStatement(self):
-        pass # TODO
+        temp_stack = []
+        current_operand = self.operand_stack.pop()
+        if current_operand != 'end_scope_operator':
+            self.code_stack.append(current_operand)
+            return
+        while current_operand != 'begin_scope_operator':
+            current_operand = self.operand_stack.pop()
+            temp_stack.append(current_operand)
+        temp_stack.pop()  # Remove 'begin_scope_operator'
+        temp_stack.reverse()
+
+        # Extract parameters
+        visualize_bool = temp_stack.pop() if len(temp_stack) == 7 else None
+        test_end = temp_stack.pop()
+        train_end = temp_stack.pop()
+        value = temp_stack.pop().strip('"')
+        time_col = temp_stack.pop().strip('"')
+        alias = temp_stack.pop()
+        source = temp_stack.pop().strip('"')
+
+        # Generate code
+        self.code_stack.append(f"""#====================DATAFRAME LOAD====================
+
+{alias} = pd.read_csv('{source}.csv')
+{alias}['{time_col}'] = pd.to_datetime({alias}['{time_col}'])
+{alias} = {alias}.set_index('{time_col}')
+
+{alias} = {alias}[["{value}"]]
+{alias} = {alias}.dropna()
+
+train_end_date = "{train_end}"
+test_end_date = "{test_end}"
+
+train_{alias} = {alias}.loc[:train_end_date]
+test_{alias} = {alias}.loc[train_end_date:test_end_date]\n\n""")
+
+        if visualize_bool == 'True':
+            self.code_stack.append(f"""plt.figure(figsize=(12, 6))
+plt.plot(train_{alias}.index, train_{alias}['{value}'], label='Training Data', color='blue')
+plt.plot(test_{alias}.index, test_{alias}['{value}'], label='Testing Data', color='orange')
+plt.title('{alias} {value} (Training and Testing Split)')
+plt.xlabel('Date')
+plt.ylabel('{value}')
+plt.legend()
+plt.grid(True)
+plt.show()
+""")
+            self.import_codes.append("import matplotlib.pyplot as plt")
+        self.import_codes.append("import pandas as pd")
 
     def generate_mr_model(self):
         pass # TODO

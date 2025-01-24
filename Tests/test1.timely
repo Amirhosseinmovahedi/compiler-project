@@ -1,5 +1,5 @@
 # load the data from yahoo finance
-load ticker "BTC-USD" as my_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01
+load ticker "BTC-USD" as my_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = True
 
 # a LSTM model example
 model lstm my_model (n_layers=4,
