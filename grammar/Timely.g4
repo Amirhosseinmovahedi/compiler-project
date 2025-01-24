@@ -50,7 +50,7 @@ arima_model: 'model' 'ARIMA' model '(' 'p' '=' p ',' 'd' '=' d ',' 'q' '=' q ')'
 sarima_model: 'model' 'SARIMA' model '(' 'p' '=' p ',' 'd' '=' d ',' 'q' '=' q ')''(' 'P' '=' ps ',' 'D' '=' ds ',' 'Q' '=' qs ',' 's' '=' s')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 arch_model: 'model' 'ARCH' model '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 garch_model: 'model' 'GARCH' model '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
-lstm_model: 'model' 'lstm' model '(' 'n_layers' '=' n_layers ','  'batch_size' '=' batch_size ',' 'n_epochs' '=' n_epochs ',' 'drop_out' '=' drop_out ',' 'lstm_neurons' '=' lstm_neurons ',' 'dense_neurons' '=' lstm_neurons ',' 'optimizer' '=' optimizer ',' 'loss' '=' loss ',' 'seq_length' '=' seq_length ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+lstm_model: 'model' 'lstm' model '(' 'n_layers' '=' n_layers ',' 'batch_size' '=' batch_size ',' 'n_epochs' '=' n_epochs ',' 'drop_out' '=' drop_out ',' 'lstm_neurons' '=' lstm_neurons ',' 'dense_neurons' '=' lstm_neurons ',' 'optimizer' '=' optimizer ',' 'loss' '=' loss ',' 'seq_length' '=' seq_length ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 
 
 
