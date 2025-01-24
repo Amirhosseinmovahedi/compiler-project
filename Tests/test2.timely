@@ -1,5 +1,8 @@
 load data my_data as csv_data, time = "Date", value = "Close", trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = True
-load ticker "BTC-USD" as downloaded_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = True
+load ticker "DOGE-USD" as downloaded_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = True
 
 test adf csv_data
 test adf downloaded_data
+
+acf data = csv_data, lags = 100, type = Bar
+acf data = downloaded_data, lags = 10, type = Plot
