@@ -238,8 +238,7 @@ plt.xlabel('Date')
 plt.ylabel('{value}')
 plt.legend()
 plt.grid(True)
-plt.show()
-""")
+plt.show()\n\n""")
             self.import_codes.append("import matplotlib.pyplot as plt")
         self.import_codes.append("import pandas as pd")
 
@@ -268,7 +267,20 @@ plt.show()
         pass # TODO
 
     def generate_testStatement(self):
-        pass # TODO
+        dataframe_name = self.operand_stack.pop()
+
+        self.code_stack.append(f"""#====================ADF TEST====================
+
+adf_result = adfuller({dataframe_name})
+print('Dataframe:', '{dataframe_name}')
+print('ADF Statistic:', adf_result[0])
+print('p-value:', adf_result[1])
+print('Critical Values:')
+for key, value in adf_result[4].items():
+    print(f'\\t{{key}}: {{value}}')
+print('\\n')\n\n""")
+
+        self.import_codes.append("from statsmodels.tsa.stattools import adfuller")
 
     def generate_lstm_model(self):
         temp_model_stack = []
