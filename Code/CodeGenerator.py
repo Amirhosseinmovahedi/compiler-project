@@ -182,7 +182,7 @@ test_{dataframe_name} = {dataframe_name}.loc[train_end_date:test_end_date]\n\n""
                 self.code_stack.append(f"""plt.figure(figsize=(12, 6))
 plt.plot(train_{dataframe_name}.index, train_{dataframe_name}["{position}"], label="Training Data", color="blue")
 plt.plot(test_{dataframe_name}.index, test_{dataframe_name}["{position}"], label="Testing Data", color="orange")
-plt.title("BTC-USD Close Price (Training and Testing Data)")
+plt.title("{coin_name[1:-1]} {position} Price (Training and Testing Data)")
 plt.xlabel("Date")
 plt.ylabel("Price (USD)")
 plt.legend()
@@ -193,7 +193,54 @@ plt.show()\n\n""")
         self.import_codes.append("import yfinance as yf")
 
     def generate_dataframeLoadStatement(self):
-        pass # TODO
+        temp_stack = []
+        current_operand = self.operand_stack.pop()
+        if current_operand != 'end_scope_operator':
+            self.code_stack.append(current_operand)
+            return
+        while current_operand != 'begin_scope_operator':
+            current_operand = self.operand_stack.pop()
+            temp_stack.append(current_operand)
+        temp_stack.pop()  # Remove 'begin_scope_operator'
+        temp_stack.reverse()
+
+        # Extract parameters
+        visualize_bool = temp_stack.pop() if len(temp_stack) == 7 else None
+        test_end = temp_stack.pop()
+        train_end = temp_stack.pop()
+        value = temp_stack.pop().strip('"')
+        time_col = temp_stack.pop().strip('"')
+        alias = temp_stack.pop()
+        source = temp_stack.pop().strip('"')
+
+        # Generate code
+        self.code_stack.append(f"""#====================DATAFRAME LOAD====================
+
+{alias} = pd.read_csv('{source}.csv')
+{alias}['{time_col}'] = pd.to_datetime({alias}['{time_col}'])
+{alias} = {alias}.set_index('{time_col}')
+
+{alias} = {alias}[["{value}"]]
+{alias} = {alias}.dropna()
+
+train_end_date = "{train_end}"
+test_end_date = "{test_end}"
+
+train_{alias} = {alias}.loc[:train_end_date]
+test_{alias} = {alias}.loc[train_end_date:test_end_date]\n\n""")
+
+        if visualize_bool == 'True':
+            self.code_stack.append(f"""plt.figure(figsize=(12, 6))
+plt.plot(train_{alias}.index, train_{alias}['{value}'], label='Training Data', color='blue')
+plt.plot(test_{alias}.index, test_{alias}['{value}'], label='Testing Data', color='orange')
+plt.title('{alias} {value} (Training and Testing Split)')
+plt.xlabel('Date')
+plt.ylabel('{value}')
+plt.legend()
+plt.grid(True)
+plt.show()\n\n""")
+            self.import_codes.append("import matplotlib.pyplot as plt")
+        self.import_codes.append("import pandas as pd")
 
     def generate_ma_model(self):
         temp_model_stack = []
@@ -540,13 +587,63 @@ plt.show()\n\n""")
             self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
 
     def generate_acfStatement(self):
-        pass # TODO
+        plot_type = self.operand_stack.pop()
+        lags = self.operand_stack.pop()
+        dataframe_name = self.operand_stack.pop()
+
+        self.code_stack.append(f"""#====================ACF PLOT====================\n\n""")
+
+        if plot_type == 'Bar':
+            self.code_stack.append(f'''plot_acf({dataframe_name}, lags={lags}, title='ACF of {dataframe_name}')
+plt.show()\n\n''')
+            self.import_codes.append("from statsmodels.graphics.tsaplots import plot_acf")
+        elif plot_type == 'Plot':
+            self.code_stack.append(f'''acf_vals = acf({dataframe_name})
+num_lags = {lags}
+plt.bar(range(num_lags), acf_vals[:num_lags])
+plt.title('ACF of {dataframe_name}')
+plt.show()\n\n''')
+            self.import_codes.append("from statsmodels.tsa.stattools import acf")
+        else:
+            raise ValueError('incorrect value for type argument')
+
 
     def generate_pacfStatement(self):
-        pass # TODO
+        plot_type = self.operand_stack.pop()
+        lags = self.operand_stack.pop()
+        dataframe_name = self.operand_stack.pop()
+
+        self.code_stack.append(f"""#====================PACF PLOT====================\n\n""")
+
+        if plot_type == 'Bar':
+            self.code_stack.append(f'''plot_pacf({dataframe_name}, lags={lags}, title='PACF of {dataframe_name}')
+plt.show()\n\n''')
+            self.import_codes.append("from statsmodels.graphics.tsaplots import plot_pacf")
+        elif plot_type == 'Plot':
+            self.code_stack.append(f'''pacf_vals = pacf({dataframe_name})
+num_lags = {lags}
+plt.bar(range(num_lags), pacf_vals[:num_lags])
+plt.title('PACF of {dataframe_name}')
+plt.show()\n\n''')
+            self.import_codes.append("from statsmodels.tsa.stattools import pacf")
+        else:
+            raise ValueError('incorrect value for type argument')
 
     def generate_testStatement(self):
-        pass # TODO
+        dataframe_name = self.operand_stack.pop()
+
+        self.code_stack.append(f"""#====================ADF TEST====================
+
+adf_result = adfuller({dataframe_name})
+print('Dataframe:', '{dataframe_name}')
+print('ADF Statistic:', adf_result[0])
+print('p-value:', adf_result[1])
+print('Critical Values:')
+for key, value in adf_result[4].items():
+    print(f'\\t{{key}}: {{value}}')
+print('\\n')\n\n""")
+
+        self.import_codes.append("from statsmodels.tsa.stattools import adfuller")
 
     def generate_lstm_model(self):
         temp_model_stack = []

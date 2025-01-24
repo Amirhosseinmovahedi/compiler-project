@@ -18,7 +18,7 @@ def main(arguments):
 	walker = ParseTreeWalker()
 	walker.walk(t=parse_tree, listener=ast_builder_listener)
 	ast = ast_builder_listener.ast
-	show_ast(ast.root)
+	# show_ast(ast.root)
 	post_order_ast_traverser = PostOrderASTTraverser()
 	post_order_ast_traverser.node_attributes = ['label', 'text', 'number']
 	traversal = post_order_ast_traverser.traverse_ast(ast.root)
@@ -31,7 +31,7 @@ def main(arguments):
 
 if __name__ == '__main__':
 	argparser = argparse.ArgumentParser()
-	argparser.add_argument('-i', '--input', help='Input source', default=r'test.timely')
-	argparser.add_argument('-o', '--output', help='Output path', default=r'test_output.py')
+	argparser.add_argument('-i', '--input', help='Input source', default=r'Tests/test2.timely')
+	argparser.add_argument('-o', '--output', help='Output path', default=r'Tests/test2_output.py')
 	args = argparser.parse_args()
 	main(args)
