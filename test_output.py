@@ -1,11 +1,11 @@
-import numpy as np
-import yfinance as yf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
-from sklearn.metrics import mean_squared_error
-from statsmodels.tsa.arima.model import ARIMA
 from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+from sklearn.metrics import mean_squared_error
+from tensorflow.keras.layers import LSTM, Dense, Dropout
+import yfinance as yf
 import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+from tensorflow.keras.models import Sequential
 
 
 my_data = yf.download("BTC-USD", start="2020-01-01", end="2023-01-01", interval="1d")
@@ -95,4 +95,15 @@ my_ar_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_ar
 print("RMSE for AR model:", my_ar_model_rmse)
 
 print(my_ar_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_ar_model, label="Predicted", color="orange")
+plt.xlabel("Time")
+plt.ylabel("Values")
+plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+
+plt.show()
 

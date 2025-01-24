@@ -14,4 +14,4 @@ model lstm my_model (n_layers=4,
                     my_data, summary, visualize, save model as "my_lstm_model", save chart as "my_lstm_chart"
 
 # an AR model example
-model AR my_ar_model (p=5) my_data, summary
+model AR my_ar_model (p=5) my_data, summary, visualize
