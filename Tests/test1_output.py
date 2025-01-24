@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import yfinance as yf
+from arch import arch_model
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.arima.model import ARIMA
@@ -54,7 +55,7 @@ X_test_my_model = X_test_my_model.reshape((X_test_my_model.shape[0], X_test_my_m
 my_model = Sequential([
     LSTM(50, return_sequences=True, input_shape=(X_train_my_model.shape[1], 1)),
     Dropout(0.2),
-    
+
     LSTM(50, return_sequences=True),
     Dropout(0.2),
     LSTM(50, return_sequences=True),
@@ -124,16 +125,16 @@ plt.show()
 my_ma_model = ARIMA(train_my_data, order=(0, 0, 2))
 my_ma_model_fitted = my_ma_model.fit()
 
-ar_predictions_my_ma_model = my_ma_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+ma_predictions_my_ma_model = my_ma_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
 
-my_ma_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_ma_model))
+my_ma_model_rmse = np.sqrt(mean_squared_error(test_my_data, ma_predictions_my_ma_model))
 print("RMSE for MA model:", my_ma_model_rmse)
 
 print(my_ma_model_fitted.summary())
 
 plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
-plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_ma_model, label="Predicted", color="orange")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ma_predictions_my_ma_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
 plt.title("Actual vs Predicted Values")
@@ -147,16 +148,16 @@ plt.show()
 my_arma_model = ARIMA(train_my_data, order=(5, 0, 2))
 my_arma_model_fitted = my_arma_model.fit()
 
-ar_predictions_my_arma_model = my_arma_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+arma_predictions_my_arma_model = my_arma_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
 
-my_arma_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_arma_model))
+my_arma_model_rmse = np.sqrt(mean_squared_error(test_my_data, arma_predictions_my_arma_model))
 print("RMSE for ARMA model:", my_arma_model_rmse)
 
 print(my_arma_model_fitted.summary())
 
 plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
-plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_arma_model, label="Predicted", color="orange")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), arma_predictions_my_arma_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
 plt.title("Actual vs Predicted Values")
@@ -170,16 +171,16 @@ plt.show()
 my_arima_model = ARIMA(train_my_data, order=(5, 1, 2))
 my_arima_model_fitted = my_arima_model.fit()
 
-ar_predictions_my_arima_model = my_arima_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+arima_predictions_my_arima_model = my_arima_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
 
-my_arima_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_arima_model))
+my_arima_model_rmse = np.sqrt(mean_squared_error(test_my_data, arima_predictions_my_arima_model))
 print("RMSE for ARIMA model:", my_arima_model_rmse)
 
 print(my_arima_model_fitted.summary())
 
 plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
-plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_arima_model, label="Predicted", color="orange")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), arima_predictions_my_arima_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
 plt.title("Actual vs Predicted Values")
@@ -193,19 +194,69 @@ plt.show()
 my_sarima_model = SARIMAX(train_my_data, order=(5, 1, 2), seasonal_order=(1, 0, 2, 12))
 my_sarima_model_fitted = my_sarima_model.fit()
 
-ar_predictions_my_sarima_model = my_sarima_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
+sarima_predictions_my_sarima_model = my_sarima_model_fitted.predict(start=len(train_my_data), end=len(train_my_data) + len(test_my_data) - 1)
 
-my_sarima_model_rmse = np.sqrt(mean_squared_error(test_my_data, ar_predictions_my_sarima_model))
+my_sarima_model_rmse = np.sqrt(mean_squared_error(test_my_data, sarima_predictions_my_sarima_model))
 print("RMSE for SARIMA model:", my_sarima_model_rmse)
 
 print(my_sarima_model_fitted.summary())
 
 plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test_my_data, label="Actual", color="blue")
-plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_sarima_model, label="Predicted", color="orange")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), sarima_predictions_my_sarima_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
 plt.title("Actual vs Predicted Values")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+#====================ARCH MODEL====================
+
+train_my_arch_model_returns = 100 * train_my_data.pct_change().dropna()
+test_my_arch_model_returns = 100 * test_my_data.pct_change().dropna()
+my_arch_model = arch_model(train_my_arch_model_returns, mean='Zero', vol='ARCH', p=4)
+my_arch_model_fitted = my_arch_model.fit()
+
+my_arch_model_arch_forecast = my_arch_model_fitted.forecast(horizon=len(test_my_data))
+arch_predictions_my_arch_model = np.sqrt(my_arch_model_arch_forecast.variance.values[-1, :])
+
+#my_arch_model_rmse = np.sqrt(mean_squared_error(test_my_data, arch_predictions_my_arch_model))
+#print("RMSE for ARCH model:", my_arch_model_rmse)
+
+print(my_arch_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_arch_model_returns)), test_my_arch_model_returns, label="Actual Returns", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), arch_predictions_my_arch_model, label="Predicted Volatility", color="orange")
+plt.xlabel("Time")
+plt.title("Actual Returns vs Predicted Volatility")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+#====================GARCH MODEL====================
+
+train_my_garch_model_returns = 100 * train_my_data.pct_change().dropna()
+test_my_garch_model_returns = 100 * test_my_data.pct_change().dropna()
+my_garch_model = arch_model(train_my_garch_model_returns, mean='Zero', vol='GARCH', p=4, q=2)
+my_garch_model_fitted = my_garch_model.fit()
+
+my_garch_model_garch_forecast = my_garch_model_fitted.forecast(horizon=len(test_my_data))
+garch_predictions_my_garch_model = np.sqrt(my_garch_model_garch_forecast.variance.values[-1, :])
+
+#my_garch_model_rmse = np.sqrt(mean_squared_error(test_my_data, garch_predictions_my_garch_model))
+#print("RMSE for GARCH model:", my_garch_model_rmse)
+
+print(my_garch_model_fitted.summary())
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_garch_model_returns)), test_my_garch_model_returns, label="Actual Returns", color="blue")
+plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), garch_predictions_my_garch_model, label="Predicted Volatility", color="orange")
+plt.xlabel("Time")
+plt.title("Actual Returns vs Predicted Volatility")
 plt.legend()
 plt.grid(True)
 

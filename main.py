@@ -31,7 +31,7 @@ def main(arguments):
 
 if __name__ == '__main__':
 	argparser = argparse.ArgumentParser()
-	argparser.add_argument('-i', '--input', help='Input source', default=r'Tests/test2.timely')
-	argparser.add_argument('-o', '--output', help='Output path', default=r'Tests/test2_output.py')
+	argparser.add_argument('-i', '--input', help='Input source', default=r'Tests/test1.timely')
+	argparser.add_argument('-o', '--output', help='Output path', default=r'Tests/test1_output.py')
 	args = argparser.parse_args()
 	main(args)
