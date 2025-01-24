@@ -10,6 +10,7 @@ class CodeGenerator:
                              'sarima_model',
                              'arch_model',
                              'garch_model',
+                             'lstm_model',
                              ]
 
         self.operand_stack = []
@@ -75,9 +76,12 @@ class CodeGenerator:
         elif item == "tickerLoadStatement":
             self.generate_tickerLoadStatement()
 
+        elif item == "lstm_model":
+            self.generate_lstm_model()
+
     def generate_program(self):
         res = ''
-        for i in self.import_codes:
+        for i in list(set(self.import_codes)):
             res += i + '\n'
 
         res += '\n\n'
@@ -100,7 +104,9 @@ class CodeGenerator:
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig(f{temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+
+        self.code_stack.append("#====================AR MODEL====================\n\n")
 
         self.code_stack.append(f"""{model_name} = ARIMA(train_{dataframe_name}, order=({p}, 0, 0))
 {model_name}_fitted = {model_name}.fit()
@@ -130,6 +136,8 @@ plt.grid(True)
 {save_statement}
 plt.show()\n\n""")
 
+                self.import_codes.append("import matplotlib.pyplot as plt")
+
         if "save_model" in temp_model_stack:
             index = temp_model_stack.index("save_model") - 1
             self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
@@ -144,6 +152,7 @@ plt.show()\n\n""")
             current_operand = self.operand_stack.pop()
             temp_ticker_stack.append(current_operand)
         temp_ticker_stack.pop()
+
         coin_name = temp_ticker_stack.pop()
         dataframe_name = temp_ticker_stack.pop()
         interval = temp_ticker_stack.pop()
@@ -152,6 +161,7 @@ plt.show()\n\n""")
         position = temp_ticker_stack.pop()
         train_end = temp_ticker_stack.pop()
         test_end = temp_ticker_stack.pop()
+
         self.code_stack.append(f"""{dataframe_name} = yf.download({coin_name}, start="{start}", end="{end}", interval={interval})
 {dataframe_name} = {dataframe_name}[["{position}"]]
 {dataframe_name} = {dataframe_name}.dropna()
@@ -208,6 +218,116 @@ plt.show()\n\n""")
     def generate_testStatement(self):
         pass # TODO
 
+    def generate_lstm_model(self):
+        temp_model_stack = []
+        current_code = self.operand_stack.pop()
+        if current_code != 'end_scope_operator':
+            self.code_stack.append(current_code)
+            return
+        while current_code != 'begin_scope_operator':
+            current_code = self.operand_stack.pop()
+            temp_model_stack.append(current_code)
+        temp_model_stack.pop()
+        print(temp_model_stack)
+
+        model_name = temp_model_stack.pop()
+        n_layers = temp_model_stack.pop()
+        batch_size = temp_model_stack.pop()
+        n_epochs = temp_model_stack.pop()
+        drop_out = temp_model_stack.pop()
+        lstm_neurons = temp_model_stack.pop()
+        dense_neurons = temp_model_stack.pop()
+        optimizer = temp_model_stack.pop()
+        loss_function = temp_model_stack.pop()
+        seq_length = temp_model_stack.pop()
+        dataframe_name = temp_model_stack.pop()
+
+        summary_code = ''
+        if 'summary' in temp_model_stack:
+            summary_code += f"{model_name}.summary()"
+
+        additioanl_layers_statement = ''
+        number_of_additional_layers = int(n_layers) - 2
+        if number_of_additional_layers > 0:
+            for i in range(number_of_additional_layers):
+                additioanl_layers_statement += f"""
+    LSTM(50, return_sequences=True),
+    Dropout(0.2),"""
+
+        self.code_stack.append("#====================LSTM MODEL====================\n\n")
+
+        self.code_stack.append(f"""
+scaler_{model_name} = MinMaxScaler(feature_range=(0, 1))
+train_scaled_{model_name} = scaler_{model_name}.fit_transform(train_{dataframe_name})
+test_scaled_{model_name} = scaler_{model_name}.transform(test_{dataframe_name})
+
+def create_sequences(data, sequence_length):
+    X, y = [], []
+    for i in range(len(data) - sequence_length):
+        X.append(data[i:i + sequence_length, 0])
+        y.append(data[i + sequence_length, 0])
+    return np.array(X), np.array(y)
+
+sequence_length_{model_name} = {seq_length}
+X_train_{model_name}, y_train_{model_name} = create_sequences(train_scaled_{model_name}, sequence_length_{model_name})
+X_test_{model_name}, y_test_{model_name} = create_sequences(test_scaled_{model_name}, sequence_length_{model_name})
+
+X_train_{model_name} = X_train_{model_name}.reshape((X_train_{model_name}.shape[0], X_train_{model_name}.shape[1], 1))
+X_test_{model_name} = X_test_{model_name}.reshape((X_test_{model_name}.shape[0], X_test_{model_name}.shape[1], 1))
+
+{model_name} = Sequential([
+    LSTM({lstm_neurons}, return_sequences=True, input_shape=(X_train_{model_name}.shape[1], 1)),
+    Dropout({drop_out}),
+    {additioanl_layers_statement}
+    LSTM({lstm_neurons}, return_sequences=False),
+    Dropout({drop_out}),
+    Dense({dense_neurons}),
+    Dense(1)
+])
+
+{model_name}.compile(optimizer={optimizer}, loss={loss_function})
+{summary_code}
+
+history = {model_name}.fit(X_train_{model_name}, y_train_{model_name}, batch_size={batch_size}, epochs={n_epochs}, validation_data=(X_test_{model_name}, y_test_{model_name}))
+
+train_predictions_{model_name} = {model_name}.predict(X_train_{model_name})
+test_predictions_{model_name} = {model_name}.predict(X_test_{model_name})
+
+train_predictions_{model_name} = scaler_{model_name}.inverse_transform(train_predictions_{model_name})
+y_train_{model_name} = scaler_{model_name}.inverse_transform(y_train_{model_name}.reshape(-1, 1))
+test_predictions_{model_name} = scaler_{model_name}.inverse_transform(test_predictions_{model_name})
+y_test_{model_name} = scaler_{model_name}.inverse_transform(y_test_{model_name}.reshape(-1, 1))\n\n""")
+
+        self.import_codes.append("from sklearn.preprocessing import MinMaxScaler")
+        self.import_codes.append("from tensorflow.keras.models import Sequential")
+        self.import_codes.append("from tensorflow.keras.layers import LSTM, Dense, Dropout")
+        self.import_codes.append("import numpy as np")
+
+        save_statement = ''
+        if "save_chart" in temp_model_stack:
+            save_chart_index = temp_model_stack.index("save_chart") - 1
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+
+        if "save_model" in temp_model_stack:
+            save_model_index = temp_model_stack.index("save_model") - 1
+            self.code_stack.append(f"{model_name}.save({temp_model_stack[save_model_index][:-1]}.h5\")\n\n")
+
+        if "visualize" in temp_model_stack:
+            self.code_stack.append(f"""
+plt.figure(figsize=(12, 6))
+plt.plot(train_{dataframe_name}.index[sequence_length_{model_name}:], y_train_{model_name}, label="Training True Values", color="blue")
+plt.plot(train_{dataframe_name}.index[sequence_length_{model_name}:], train_predictions_{model_name}, label="Training Predictions", color="cyan")
+plt.plot(test_{dataframe_name}.index[sequence_length_{model_name}:], y_test_{model_name}, label="Testing True Values", color="orange")
+plt.plot(test_{dataframe_name}.index[sequence_length_{model_name}:], test_predictions_{model_name}, label="Testing Predictions", color="red")
+plt.title("Price Prediction with LSTM")
+plt.xlabel("Date")
+plt.ylabel("Price")
+plt.legend()
+plt.grid(True)
+{save_statement}
+plt.show()\n\n""")
+
+            self.import_codes.append("import matplotlib.pyplot as plt")
 
 
 

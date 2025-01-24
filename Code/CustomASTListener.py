@@ -18,6 +18,7 @@ class CustomASTListener(TimelyListener):
                                  'sarima_model',
                                  'arch_model',
                                  'garch_model',
+                                 'lstm_model',
                                  ]
         self.rule_names = rule_names
         self.ast = AST()
@@ -74,4 +75,8 @@ class CustomASTListener(TimelyListener):
     def exitGarch_model(self, ctx):
         ctx.compound = True
         make_ast_subtree(self.ast, ctx, "garch_model", keep_node=True)
+
+    def exitLstm_model(self, ctx):
+        ctx.compound = True
+        make_ast_subtree(self.ast, ctx, "lstm_model", keep_node=True)
 

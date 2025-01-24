@@ -40,16 +40,17 @@ modelStatement
     | sarima_model
     | arch_model
     | garch_model
+    | lstm_model
     ;
 
-ar_model: 'model' 'AR' dataframe_name '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
-ma_model: 'model' 'MA' dataframe_name '(' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
-arma_model: 'model' 'ARMA' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
-arima_model: 'model' 'ARIMA' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
-sarima_model: 'model' 'SARIMA' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
-arch_model: 'model' 'ARCH' dataframe_name '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
-garch_model: 'model' 'GARCH' dataframe_name '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' 'save' 'as' model_name)? (',' 'save_chart' 'as' chart_name)?;
-
+ar_model: 'model' 'AR' model '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+ma_model: 'model' 'MA' model '(' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+arma_model: 'model' 'ARMA' model '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+arima_model: 'model' 'ARIMA' model '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+sarima_model: 'model' 'SARIMA' model '(' 'p' '=' p ',' 'q' '=' q ',' 'd' '=' d ')''(' 'P' '=' ps ',' 'Q' '=' qs ',' 'D' '=' ds ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+arch_model: 'model' 'ARCH' model '(' 'p' '=' p ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+garch_model: 'model' 'GARCH' model '(' 'p' '=' p ',' 'q' '=' q ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
+lstm_model: 'model' 'lstm' model '(' 'n_layers' '=' n_layers ','  'batch_size' '=' batch_size ',' 'n_epochs' '=' n_epochs ',' 'drop_out' '=' drop_out ',' 'lstm_neurons' '=' lstm_neurons ',' 'dense_neurons' '=' lstm_neurons ',' 'optimizer' '=' optimizer ',' 'loss' '=' loss ',' 'seq_length' '=' seq_length ')' dataframe_name (',' summary)? (',' visualize)? (',' save_model 'as' model_name)? (',' save_chart 'as' chart_name)?;
 
 
 
@@ -59,6 +60,7 @@ price_value: 'Open' | 'High' | 'Low' | 'Close' | 'Adj Close';
 coin_name: STRING;
 ticker_name: ID;
 model_name: STRING;
+model: ID;
 chart_name: STRING;
 time: STRING;
 value: STRING;
@@ -73,6 +75,14 @@ start_time: DATE;
 end_time: DATE;
 lags: INT;
 type: 'Plot' | 'Bar';
+n_layers: INT;
+batch_size: INT;
+n_epochs: INT;
+drop_out: FLOAT;
+lstm_neurons: INT;
+optimizer: STRING;
+loss: STRING;
+seq_length: INT;
 p: INT;
 q: INT;
 d: INT;
@@ -86,6 +96,7 @@ fragment MONTH: '0'?[0-9] | '1'[0-2];
 fragment DAY: '0'?[0-9] | [1-2][0-9] | '3'[0-1];
 DATE: YEAR '-' MONTH '-' DAY;
 INT: [0-9]+;
+FLOAT: [0-9]*'.'[0-9]+ | [0-9]+'.'[0-9]*;
 BOOL: 'True' | 'False';
 ID: [A-Za-z][A-Za-z_0-9]*;
 STRING: '"' .*? '"';

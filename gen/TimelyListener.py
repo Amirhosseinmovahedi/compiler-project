@@ -152,6 +152,15 @@ class TimelyListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by TimelyParser#lstm_model.
+    def enterLstm_model(self, ctx:TimelyParser.Lstm_modelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#lstm_model.
+    def exitLstm_model(self, ctx:TimelyParser.Lstm_modelContext):
+        pass
+
+
     # Enter a parse tree produced by TimelyParser#save_model.
     def enterSave_model(self, ctx:TimelyParser.Save_modelContext):
         pass
@@ -203,6 +212,15 @@ class TimelyListener(ParseTreeListener):
 
     # Exit a parse tree produced by TimelyParser#model_name.
     def exitModel_name(self, ctx:TimelyParser.Model_nameContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#model.
+    def enterModel(self, ctx:TimelyParser.ModelContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#model.
+    def exitModel(self, ctx:TimelyParser.ModelContext):
         pass
 
 
@@ -329,6 +347,78 @@ class TimelyListener(ParseTreeListener):
 
     # Exit a parse tree produced by TimelyParser#type.
     def exitType(self, ctx:TimelyParser.TypeContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#n_layers.
+    def enterN_layers(self, ctx:TimelyParser.N_layersContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#n_layers.
+    def exitN_layers(self, ctx:TimelyParser.N_layersContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#batch_size.
+    def enterBatch_size(self, ctx:TimelyParser.Batch_sizeContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#batch_size.
+    def exitBatch_size(self, ctx:TimelyParser.Batch_sizeContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#n_epochs.
+    def enterN_epochs(self, ctx:TimelyParser.N_epochsContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#n_epochs.
+    def exitN_epochs(self, ctx:TimelyParser.N_epochsContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#drop_out.
+    def enterDrop_out(self, ctx:TimelyParser.Drop_outContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#drop_out.
+    def exitDrop_out(self, ctx:TimelyParser.Drop_outContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#lstm_neurons.
+    def enterLstm_neurons(self, ctx:TimelyParser.Lstm_neuronsContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#lstm_neurons.
+    def exitLstm_neurons(self, ctx:TimelyParser.Lstm_neuronsContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#optimizer.
+    def enterOptimizer(self, ctx:TimelyParser.OptimizerContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#optimizer.
+    def exitOptimizer(self, ctx:TimelyParser.OptimizerContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#loss.
+    def enterLoss(self, ctx:TimelyParser.LossContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#loss.
+    def exitLoss(self, ctx:TimelyParser.LossContext):
+        pass
+
+
+    # Enter a parse tree produced by TimelyParser#seq_length.
+    def enterSeq_length(self, ctx:TimelyParser.Seq_lengthContext):
+        pass
+
+    # Exit a parse tree produced by TimelyParser#seq_length.
+    def exitSeq_length(self, ctx:TimelyParser.Seq_lengthContext):
         pass
 
 

@@ -1,2 +1,17 @@
-load ticker "BTC-USD" as my_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = False
-model AR my_model (p = 10) my_data, summary
+# load the data from yahoo finance
+load ticker "BTC-USD" as my_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01
+
+# a LSTM model example
+model lstm my_model (n_layers=4,
+                    batch_size=32,
+                    n_epochs = 10,
+                    drop_out=0.2,
+                    lstm_neurons=50,
+                    dense_neurons=25,
+                    optimizer="adam",
+                    loss="mean_squared_error",
+                    seq_length=60)
+                    my_data, summary, visualize, save model as "my_lstm_model", save chart as "my_lstm_chart"
+
+# an AR model example
+model AR my_ar_model (p=5) my_data, summary

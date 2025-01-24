@@ -89,6 +89,11 @@ class TimelyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by TimelyParser#lstm_model.
+    def visitLstm_model(self, ctx:TimelyParser.Lstm_modelContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by TimelyParser#save_model.
     def visitSave_model(self, ctx:TimelyParser.Save_modelContext):
         return self.visitChildren(ctx)
@@ -116,6 +121,11 @@ class TimelyVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TimelyParser#model_name.
     def visitModel_name(self, ctx:TimelyParser.Model_nameContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#model.
+    def visitModel(self, ctx:TimelyParser.ModelContext):
         return self.visitChildren(ctx)
 
 
@@ -186,6 +196,46 @@ class TimelyVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TimelyParser#type.
     def visitType(self, ctx:TimelyParser.TypeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#n_layers.
+    def visitN_layers(self, ctx:TimelyParser.N_layersContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#batch_size.
+    def visitBatch_size(self, ctx:TimelyParser.Batch_sizeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#n_epochs.
+    def visitN_epochs(self, ctx:TimelyParser.N_epochsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#drop_out.
+    def visitDrop_out(self, ctx:TimelyParser.Drop_outContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#lstm_neurons.
+    def visitLstm_neurons(self, ctx:TimelyParser.Lstm_neuronsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#optimizer.
+    def visitOptimizer(self, ctx:TimelyParser.OptimizerContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#loss.
+    def visitLoss(self, ctx:TimelyParser.LossContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TimelyParser#seq_length.
+    def visitSeq_length(self, ctx:TimelyParser.Seq_lengthContext):
         return self.visitChildren(ctx)
 
 
