@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import warnings
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller
 
+warnings.filterwarnings("ignore")
 
 #====================DATAFRAME LOAD====================
 
@@ -49,7 +51,7 @@ plt.plot(range(len(train_nvda), len(train_nvda) + len(test_nvda)), test_nvda, la
 plt.plot(range(len(train_nvda), len(train_nvda) + len(test_nvda)), arima_predictions_my_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'nvda' (using ARIMA(1,1,1))")
 plt.legend()
 plt.grid(True)
 

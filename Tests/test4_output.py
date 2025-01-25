@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import warnings
 import yfinance as yf
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.arima.model import ARIMA
 
+warnings.filterwarnings("ignore")
 
 #====================TICKER LOAD====================
 
@@ -32,11 +34,10 @@ plt.plot(range(len(train_eth_data), len(train_eth_data) + len(test_eth_data)), t
 plt.plot(range(len(train_eth_data), len(train_eth_data) + len(test_eth_data)), ma_predictions_my_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'eth_data' (using MA(3))")
 plt.legend()
 plt.grid(True)
 plt.savefig("ma_eth_chart.png")
-
 
 plt.show()
 

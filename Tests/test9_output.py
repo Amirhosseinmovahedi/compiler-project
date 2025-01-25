@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import warnings
 import yfinance as yf
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.models import Sequential
 
+warnings.filterwarnings("ignore")
 
 #====================TICKER LOAD====================
 

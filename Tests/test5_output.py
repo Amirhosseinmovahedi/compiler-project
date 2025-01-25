@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import warnings
 from sklearn.metrics import mean_squared_error
 from statsmodels.graphics.tsaplots import plot_pacf
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import acf
 
+warnings.filterwarnings("ignore")
 
 #====================DATAFRAME LOAD====================
 
@@ -27,7 +29,7 @@ test_climate_df = climate_df.loc[train_end_date:test_end_date]
 acf_vals = acf(climate_df)
 num_lags = 20
 plt.bar(range(num_lags), acf_vals[:num_lags])
-plt.title('ACF of climate_df')
+plt.title("ACF of 'climate_df'")
 plt.show()
 
 #====================PACF PLOT====================
@@ -52,7 +54,7 @@ plt.plot(range(len(train_climate_df), len(train_climate_df) + len(test_climate_d
 plt.plot(range(len(train_climate_df), len(train_climate_df) + len(test_climate_df)), arma_predictions_my_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'climate_df' (using ARMA(2,1))")
 plt.legend()
 plt.grid(True)
 

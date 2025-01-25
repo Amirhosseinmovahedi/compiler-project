@@ -1,12 +1,14 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import warnings
 import yfinance as yf
-from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.graphics.tsaplots import plot_pacf
+from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.stattools import acf
 from statsmodels.tsa.stattools import pacf
 
+warnings.filterwarnings("ignore")
 
 #====================DATAFRAME LOAD====================
 
@@ -87,7 +89,7 @@ plt.show()
 acf_vals = acf(downloaded_data)
 num_lags = 10
 plt.bar(range(num_lags), acf_vals[:num_lags])
-plt.title('ACF of downloaded_data')
+plt.title("ACF of 'downloaded_data'")
 plt.show()
 
 #====================PACF PLOT====================
@@ -100,6 +102,6 @@ plt.show()
 pacf_vals = pacf(downloaded_data)
 num_lags = 5
 plt.bar(range(num_lags), pacf_vals[:num_lags])
-plt.title('PACF of downloaded_data')
+plt.title("PACF of 'downloaded_data'")
 plt.show()
 

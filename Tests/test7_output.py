@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
+import warnings
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
+warnings.filterwarnings("ignore")
 
 #====================DATAFRAME LOAD====================
 

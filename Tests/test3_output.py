@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import warnings
 import yfinance as yf
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.arima.model import ARIMA
 
+warnings.filterwarnings("ignore")
 
 #====================TICKER LOAD====================
 
@@ -44,7 +46,7 @@ plt.plot(range(len(train_my_df), len(train_my_df) + len(test_my_df)), test_my_df
 plt.plot(range(len(train_my_df), len(train_my_df) + len(test_my_df)), ar_predictions_my_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'my_df' (using AR(5))")
 plt.legend()
 plt.grid(True)
 

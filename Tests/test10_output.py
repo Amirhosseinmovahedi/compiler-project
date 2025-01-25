@@ -75,7 +75,7 @@ plt.show()
 pacf_vals = pacf(amazon)
 num_lags = 20
 plt.bar(range(num_lags), pacf_vals[:num_lags])
-plt.title('PACF of amazon')
+plt.title("PACF of 'amazon'")
 plt.show()
 
 #====================AR MODEL====================
@@ -105,7 +105,7 @@ plt.plot(range(len(train_amazon), len(train_amazon) + len(test_amazon)), test_am
 plt.plot(range(len(train_amazon), len(train_amazon) + len(test_amazon)), ma_predictions_ma_amazon, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'amazon' (using MA(2))")
 plt.legend()
 plt.grid(True)
 
@@ -138,11 +138,10 @@ plt.plot(range(len(train_traffic), len(train_traffic) + len(test_traffic)), test
 plt.plot(range(len(train_traffic), len(train_traffic) + len(test_traffic)), arima_predictions_arima_traffic, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'traffic' (using ARIMA(2,1,1))")
 plt.legend()
 plt.grid(True)
 plt.savefig("arima_forecast.png")
-
 
 plt.show()
 

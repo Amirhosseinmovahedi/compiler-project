@@ -116,7 +116,7 @@ plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ar_predictions_my_ar_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'my_data' (using AR(5))")
 plt.legend()
 plt.grid(True)
 
@@ -139,7 +139,7 @@ plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), ma_predictions_my_ma_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'my_data' (using MA(2))")
 plt.legend()
 plt.grid(True)
 
@@ -162,7 +162,7 @@ plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), arma_predictions_my_arma_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'my_data' (using ARMA(5,2))")
 plt.legend()
 plt.grid(True)
 
@@ -185,7 +185,7 @@ plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), arima_predictions_my_arima_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'my_data' (using ARIMA(5,1,2))")
 plt.legend()
 plt.grid(True)
 
@@ -208,7 +208,7 @@ plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), test
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), sarima_predictions_my_sarima_model, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of 'my_data' (using SARIMA(5,1,2)(1,0,2,12))")
 plt.legend()
 plt.grid(True)
 
@@ -233,7 +233,7 @@ plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_arch_model_returns)), test_my_arch_model_returns, label="Actual Returns", color="blue")
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), arch_predictions_my_arch_model, label="Predicted Volatility", color="orange")
 plt.xlabel("Time")
-plt.title("Actual Returns vs Predicted Volatility")
+plt.title("Actual Returns vs Predicted Volatility of 'my_data' (using ARCH(4))")
 plt.legend()
 plt.grid(True)
 
@@ -258,7 +258,7 @@ plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_garch_model_returns)), test_my_garch_model_returns, label="Actual Returns", color="blue")
 plt.plot(range(len(train_my_data), len(train_my_data) + len(test_my_data)), garch_predictions_my_garch_model, label="Predicted Volatility", color="orange")
 plt.xlabel("Time")
-plt.title("Actual Returns vs Predicted Volatility")
+plt.title("Actual Returns vs Predicted Volatility of 'my_data' (using GARCH(4,2))")
 plt.legend()
 plt.grid(True)
 

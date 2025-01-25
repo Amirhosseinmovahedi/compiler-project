@@ -607,7 +607,7 @@ plt.show()\n\n''')
             self.code_stack.append(f'''acf_vals = acf({dataframe_name})
 num_lags = {lags}
 plt.bar(range(num_lags), acf_vals[:num_lags])
-plt.title('ACF of '{dataframe_name}'')
+plt.title("ACF of '{dataframe_name}'")
 plt.show()\n\n''')
             self.import_codes.append("from statsmodels.tsa.stattools import acf")
         else:
@@ -629,7 +629,7 @@ plt.show()\n\n''')
             self.code_stack.append(f'''pacf_vals = pacf({dataframe_name})
 num_lags = {lags}
 plt.bar(range(num_lags), pacf_vals[:num_lags])
-plt.title('PACF of '{dataframe_name}'')
+plt.title("PACF of '{dataframe_name}'")
 plt.show()\n\n''')
             self.import_codes.append("from statsmodels.tsa.stattools import pacf")
         else:
