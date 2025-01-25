@@ -132,7 +132,7 @@ plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(te
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), ar_predictions_{model_name}, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of '{dataframe_name}' (using AR({p}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -285,7 +285,7 @@ plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(te
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), ma_predictions_{model_name}, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of '{dataframe_name}' (using MA({q}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -341,7 +341,7 @@ plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(te
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), arma_predictions_{model_name}, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of '{dataframe_name}' (using ARMA({p},{q}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -398,7 +398,7 @@ plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(te
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), arima_predictions_{model_name}, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of '{dataframe_name}' (using ARIMA({p},{d},{q}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -459,7 +459,7 @@ plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(te
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), sarima_predictions_{model_name}, label="Predicted", color="orange")
 plt.xlabel("Time")
 plt.ylabel("Values")
-plt.title("Actual vs Predicted Values")
+plt.title("Actual vs Predicted Values of '{dataframe_name}' (using SARIMA({p},{d},{q})({ps},{ds},{qs},{s}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -516,7 +516,7 @@ arch_predictions_{model_name} = np.sqrt({model_name}_arch_forecast.variance.valu
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{model_name}_returns)), test_{model_name}_returns, label="Actual Returns", color="blue")
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), arch_predictions_{model_name}, label="Predicted Volatility", color="orange")
 plt.xlabel("Time")
-plt.title("Actual Returns vs Predicted Volatility")
+plt.title("Actual Returns vs Predicted Volatility of '{dataframe_name}' (using ARCH({p}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -574,7 +574,7 @@ garch_predictions_{model_name} = np.sqrt({model_name}_garch_forecast.variance.va
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{model_name}_returns)), test_{model_name}_returns, label="Actual Returns", color="blue")
 plt.plot(range(len(train_{dataframe_name}), len(train_{dataframe_name}) + len(test_{dataframe_name})), garch_predictions_{model_name}, label="Predicted Volatility", color="orange")
 plt.xlabel("Time")
-plt.title("Actual Returns vs Predicted Volatility")
+plt.title("Actual Returns vs Predicted Volatility of '{dataframe_name}' (using GARCH({p},{q}))")
 plt.legend()
 plt.grid(True)
 {save_statement}
@@ -601,7 +601,7 @@ plt.show()\n\n''')
             self.code_stack.append(f'''acf_vals = acf({dataframe_name})
 num_lags = {lags}
 plt.bar(range(num_lags), acf_vals[:num_lags])
-plt.title('ACF of {dataframe_name}')
+plt.title('ACF of '{dataframe_name}'')
 plt.show()\n\n''')
             self.import_codes.append("from statsmodels.tsa.stattools import acf")
         else:
@@ -623,7 +623,7 @@ plt.show()\n\n''')
             self.code_stack.append(f'''pacf_vals = pacf({dataframe_name})
 num_lags = {lags}
 plt.bar(range(num_lags), pacf_vals[:num_lags])
-plt.title('PACF of {dataframe_name}')
+plt.title('PACF of '{dataframe_name}'')
 plt.show()\n\n''')
             self.import_codes.append("from statsmodels.tsa.stattools import pacf")
         else:
