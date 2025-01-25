@@ -80,13 +80,15 @@ class CodeGenerator:
             self.generate_lstm_model()
 
     def generate_program(self):
+        self.import_codes.append('import warnings')
+
         res = ''
         self.import_codes = list(set(self.import_codes))
         self.import_codes.sort(key=lambda x: (tuple(-ord(c) for c in x.split()[0]) ,x.split()[1]))
         for i in self.import_codes:
             res += i + '\n'
 
-        res += '\n\n'
+        res += '\nwarnings.filterwarnings("ignore")\n\n'
         self.code_stack.insert(0, res)
 
     def generate_ar_model(self):
@@ -606,7 +608,7 @@ plt.show()\n\n''')
             self.import_codes.append("from statsmodels.tsa.stattools import acf")
         else:
             raise ValueError('incorrect value for type argument')
-
+        self.import_codes.append("import matplotlib.pyplot as plt")
 
     def generate_pacfStatement(self):
         plot_type = self.operand_stack.pop()
@@ -628,6 +630,7 @@ plt.show()\n\n''')
             self.import_codes.append("from statsmodels.tsa.stattools import pacf")
         else:
             raise ValueError('incorrect value for type argument')
+        self.import_codes.append("import matplotlib.pyplot as plt")
 
     def generate_testStatement(self):
         dataframe_name = self.operand_stack.pop()

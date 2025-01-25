@@ -1,0 +1,14 @@
+load ticker "SPY" as spy_data,
+    interval = "1d",
+    start = 2015-01-01,
+    end = 2023-01-01,
+    value = Close,
+    trainEnd = 2022-01-01,
+    testEnd = 2023-01-01
+
+model ARCH arch (p=2) spy_data,
+    summary
+
+model GARCH garch (p=1, q=1) spy_data,
+    visualize,
+    save chart as "garch_spy"

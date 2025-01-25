@@ -1,0 +1,12 @@
+load data my_data as climate_df,
+    time = "Date",
+    value = "Close",
+    trainEnd = 2020-12-31,
+    testEnd = 2021-12-31
+
+acf data = climate_df, lags = 20, type = Plot
+pacf data = climate_df, lags = 20, type = Bar
+
+model ARMA my_model (p=2, q=1) climate_df,
+    summary,
+    visualize

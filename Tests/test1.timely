@@ -2,34 +2,52 @@
 load ticker "BTC-USD" as my_data, interval = "1d", start = 2020-01-01, end= 2023-01-01, value = Close, trainEnd = 2022-06-30, testEnd = 2023-01-01, visualize = True
 
 # an LSTM model example
-model lstm my_model (n_layers=4,
-                    batch_size=32,
-                    n_epochs = 10,
-                    drop_out=0.2,
-                    lstm_neurons=50,
-                    dense_neurons=25,
-                    optimizer="adam",
-                    loss="mean_squared_error",
-                    seq_length=60)
-                    my_data, summary, visualize, save model as "my_lstm_model", save chart as "my_lstm_chart"
+model lstm my_model (
+    n_layers=4,
+    batch_size=32,
+    n_epochs = 10,
+    drop_out=0.2,
+    lstm_neurons=50,
+    dense_neurons=25,
+    optimizer="adam",
+    loss="mean_squared_error",
+    seq_length=60) my_data,
+        summary,
+        visualize,
+        save model as "my_lstm_model",
+        save chart as "my_lstm_chart"
 
 # an AR model example
-model AR my_ar_model (p=5) my_data, summary, visualize
+model AR my_ar_model (p=5) my_data,
+    summary,
+    visualize
 
 # an MA model example
-model MA my_ma_model (q=2) my_data, summary, visualize
+model MA my_ma_model (q=2) my_data,
+    summary,
+    visualize
 
 # an ARMA model example
-model ARMA my_arma_model (p=5, q=2) my_data, summary, visualize
+model ARMA my_arma_model (p=5, q=2) my_data,
+    summary,
+    visualize
 
 # an ARIMA model example
-model ARIMA my_arima_model (p=5, d=1, q=2) my_data, summary, visualize
+model ARIMA my_arima_model (p=5, d=1, q=2) my_data,
+    summary,
+    visualize
 
 # a SARIMA model example
-model SARIMA my_sarima_model (p=5, d=1, q=2)(P=1, D=0, Q=2, s=12) my_data, summary, visualize
+model SARIMA my_sarima_model (p=5, d=1, q=2)(P=1, D=0, Q=2, s=12) my_data,
+    summary,
+    visualize
 
 # an ARCH model example
-model ARCH my_arch_model (p=4) my_data, summary, visualize
+model ARCH my_arch_model (p=4) my_data,
+    summary,
+    visualize
 
 # a GARCH model example
-model GARCH my_garch_model (p=4, q=2) my_data, summary, visualize
+model GARCH my_garch_model (p=4, q=2) my_data,
+    summary,
+    visualize

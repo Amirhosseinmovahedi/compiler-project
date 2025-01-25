@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import warnings
 import yfinance as yf
 from arch import arch_model
 from sklearn.metrics import mean_squared_error
@@ -9,6 +10,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.models import Sequential
 
+warnings.filterwarnings("ignore")
 
 #====================TICKER LOAD====================
 
@@ -55,7 +57,7 @@ X_test_my_model = X_test_my_model.reshape((X_test_my_model.shape[0], X_test_my_m
 my_model = Sequential([
     LSTM(50, return_sequences=True, input_shape=(X_train_my_model.shape[1], 1)),
     Dropout(0.2),
-
+    
     LSTM(50, return_sequences=True),
     Dropout(0.2),
     LSTM(50, return_sequences=True),

@@ -1,0 +1,8 @@
+load data my_data as m_sales,
+    time = "Date",
+    value = "Close",
+    trainEnd = 2021-12-01,
+    testEnd = 2022-05-01
+
+model SARIMA my_model (p=2, d=1, q=1)(P=1, D=1, Q=1, s=4) m_sales,
+    save model as "sarima_monthly"

@@ -1,0 +1,12 @@
+load data my_data as nvda,
+    time = "Date",
+    value = "Close",
+    trainEnd = 2022-01-01,
+    testEnd = 2022-04-01
+
+test adf nvda
+
+model ARIMA my_model (p=1, d=1, q=1) nvda,
+    summary,
+    visualize,
+    save model as "nvda_arima"

@@ -1,0 +1,53 @@
+load data my_data as traffic,
+    time = "Date",
+    value = "Close",
+    trainEnd = 2021-09-01,
+    testEnd = 2021-12-01
+
+load ticker "AMZN" as amazon,
+    interval = "1d",
+    start = 2020-01-01,
+    end = 2023-01-01,
+    value = High,
+    trainEnd = 2022-06-30,
+    testEnd = 2023-01-01
+
+test adf traffic
+test adf amazon
+
+acf data = traffic, lags = 50, type = Bar
+pacf data = amazon, lags = 20, type = Plot
+
+model AR ar_traffic (p=4) traffic,
+    summary
+
+model MA ma_amazon (q=2) amazon,
+    visualize
+
+model ARMA arma_combo (p=3, q=2) traffic,
+    save model as "combo_arma"
+
+model ARIMA arima_traffic (p=2, d=1, q=1) traffic,
+    visualize,
+    save chart as "arima_forecast"
+
+model SARIMA sarima_amazon (p=1, d=1, q=1)(P=1, D=0, Q=1, s=12) amazon,
+    summary
+
+model ARCH arch_amazon (p=1) amazon
+
+model GARCH garch_traffic (p=1, q=1) traffic
+
+model lstm lstm_amazon (
+    n_layers=2,
+    batch_size=16,
+    n_epochs=50,
+    drop_out=0.1,
+    lstm_neurons=128,
+    dense_neurons=64,
+    optimizer="adam",
+    loss="mse",
+    seq_length=14)
+        amazon,
+        visualize,
+        save model as "amazon_lstm"
