@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
+import warnings
 import yfinance as yf
 from arch import arch_model
 from sklearn.metrics import mean_squared_error
 
+warnings.filterwarnings("ignore")
 
 #====================TICKER LOAD====================
 
@@ -32,6 +35,9 @@ arch_predictions_arch = np.sqrt(arch_arch_forecast.variance.values[-1, :])
 
 print(arch_fitted.summary())
 
+with open("test.pkl", 'wb') as file:
+    pickle.dump(arch_fitted, file)
+
 #====================GARCH MODEL====================
 
 train_garch_returns = 100 * train_spy_data.pct_change().dropna()
@@ -49,11 +55,10 @@ plt.figure(figsize=(12, 6))
 plt.plot(range(len(train_spy_data), len(train_spy_data) + len(test_garch_returns)), test_garch_returns, label="Actual Returns", color="blue")
 plt.plot(range(len(train_spy_data), len(train_spy_data) + len(test_spy_data)), garch_predictions_garch, label="Predicted Volatility", color="orange")
 plt.xlabel("Time")
-plt.title("Actual Returns vs Predicted Volatility")
+plt.title("Actual Returns vs Predicted Volatility of 'spy_data' (using GARCH(1,1))")
 plt.legend()
 plt.grid(True)
 plt.savefig("garch_spy.png")
-
 
 plt.show()
 
