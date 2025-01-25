@@ -1,0 +1,12 @@
+load ticker "ETH-USD" as eth_data,
+    interval = "1d",
+    start = 2021-01-01,
+    end = 2023-12-31,
+    value = Close,
+    trainEnd = 2023-06-30,
+    testEnd = 2023-12-31
+
+
+model MA my_model (q=3) eth_data,
+    visualize,
+    save chart as "ma_eth_chart"

@@ -1,0 +1,13 @@
+load ticker "DOGE-USD" as my_df,
+    interval = "1d",
+    start = 2020-01-01,
+    end= 2023-01-01,
+    value = Close,
+    trainEnd = 2022-06-30,
+    testEnd = 2023-01-01,
+    visualize = True
+
+model AR my_model (p=5) my_df,
+    summary,
+    visualize,
+    save model as "ar_sales_model"

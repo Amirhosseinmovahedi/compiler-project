@@ -1,0 +1,28 @@
+# Volatility analysis and deep learning forecast
+load ticker "LTC-USD" as litecoin,
+    interval = "1h",
+    start = 2024-10-01,
+    end = 2024-12-31,
+    value = High,
+    trainEnd = 2024-12-15,
+    testEnd = 2024-12-31,
+    visualize = True
+
+test adf litecoin
+
+model GARCH vol_model (p=2, q=2) litecoin,
+    summary
+
+model lstm crypto_predictor (
+    n_layers=5,
+    batch_size=64,
+    n_epochs=20,
+    drop_out=0.4,
+    lstm_neurons=200,
+    dense_neurons=100,
+    optimizer="nadam",
+    loss="mean_squared_error",
+    seq_length=48) litecoin,
+        visualize,
+        save model as "ltc_lstm_v2",
+        save chart as "lstm_24h_forecast"

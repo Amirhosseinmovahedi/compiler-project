@@ -1,0 +1,20 @@
+load ticker "AAPL" as apple,
+    interval = "1h",
+    start = 2024-01-01,
+    end = 2024-12-31,
+    value = Close,
+    trainEnd = 2024-10-31,
+    testEnd = 2024-12-31
+
+model lstm apple_lstm (
+    n_layers=3,
+    batch_size=64,
+    n_epochs=20,
+    drop_out=0.3,
+    lstm_neurons=100,
+    dense_neurons=50,
+    optimizer="rmsprop",
+    loss="mae",
+    seq_length=30) apple,
+        visualize,
+        save model as "apple_lstm"
