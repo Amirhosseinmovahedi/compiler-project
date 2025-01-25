@@ -106,7 +106,7 @@ class CodeGenerator:
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================AR MODEL====================\n\n")
 
@@ -259,7 +259,7 @@ plt.show()\n\n""")
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================MA MODEL====================\n\n")
 
@@ -315,7 +315,7 @@ plt.show()\n\n""")
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================ARMA MODEL====================\n\n")
 
@@ -372,7 +372,7 @@ plt.show()\n\n""")
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================ARIMA MODEL====================\n\n")
 
@@ -433,7 +433,7 @@ plt.show()\n\n""")
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================SARIMA MODEL====================\n\n")
 
@@ -488,7 +488,7 @@ plt.show()\n\n""")
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================ARCH MODEL====================\n\n")
 
@@ -525,8 +525,10 @@ plt.show()\n\n""")
                 self.import_codes.append("import matplotlib.pyplot as plt")
 
         if "save_model" in temp_model_stack:
+            self.import_codes.append("import pickle")
             index = temp_model_stack.index("save_model") - 1
-            self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
+            self.code_stack.append(f"""with open({temp_model_stack[index][:-1]}.pkl\", 'wb') as file:
+    pickle.dump({model_name}_fitted, file)\n\n""")
 
     def generate_garch_model(self):
         temp_model_stack = []
@@ -546,7 +548,7 @@ plt.show()\n\n""")
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
-            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n\n"
+            save_statement += f"plt.savefig({temp_model_stack[save_chart_index][:-1]}.png\")\n"
 
         self.code_stack.append("#====================GARCH MODEL====================\n\n")
 
@@ -583,8 +585,10 @@ plt.show()\n\n""")
                 self.import_codes.append("import matplotlib.pyplot as plt")
 
         if "save_model" in temp_model_stack:
+            self.import_codes.append("import pickle")
             index = temp_model_stack.index("save_model") - 1
-            self.code_stack.append(f"{model_name}_fitted.save({temp_model_stack[index][:-1]}.pkl\")\n\n")
+            self.code_stack.append(f"""with open({temp_model_stack[index][:-1]}.pkl\", 'wb') as file:
+    pickle.dump({model_name}_fitted, file)\n\n""")
 
     def generate_acfStatement(self):
         plot_type = self.operand_stack.pop()
