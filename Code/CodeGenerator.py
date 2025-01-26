@@ -16,6 +16,7 @@ class CodeGenerator:
         self.operand_stack = []
         self.code_stack = []
         self.import_codes = []
+        self.loaded_datasets = []
 
     def is_operand(self, item):
         if item in self.non_operands:
@@ -105,6 +106,9 @@ class CodeGenerator:
         p = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
 
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
+
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
@@ -166,6 +170,8 @@ plt.show()\n\n""")
         train_end = temp_ticker_stack.pop()
         test_end = temp_ticker_stack.pop()
 
+        self.loaded_datasets.append(dataframe_name)
+
         self.code_stack.append("#====================TICKER LOAD====================\n\n")
 
         self.code_stack.append(f"""{dataframe_name} = yf.download({coin_name}, start="{start}", end="{end}", interval={interval})
@@ -212,30 +218,32 @@ plt.show()\n\n""")
         train_end = temp_stack.pop()
         value = temp_stack.pop().strip('"')
         time_col = temp_stack.pop().strip('"')
-        alias = temp_stack.pop()
+        dataframe_name = temp_stack.pop()
         source = temp_stack.pop().strip('"')
+
+        self.loaded_datasets.append(dataframe_name)
 
         # Generate code
         self.code_stack.append(f"""#====================DATAFRAME LOAD====================
 
-{alias} = pd.read_csv('{source}.csv')
-{alias}['{time_col}'] = pd.to_datetime({alias}['{time_col}'])
-{alias} = {alias}.set_index('{time_col}')
+{dataframe_name} = pd.read_csv('{source}.csv')
+{dataframe_name}['{time_col}'] = pd.to_datetime({dataframe_name}['{time_col}'])
+{dataframe_name} = {dataframe_name}.set_index('{time_col}')
 
-{alias} = {alias}[["{value}"]]
-{alias} = {alias}.dropna()
+{dataframe_name} = {dataframe_name}[["{value}"]]
+{dataframe_name} = {dataframe_name}.dropna()
 
 train_end_date = "{train_end}"
 test_end_date = "{test_end}"
 
-train_{alias} = {alias}.loc[:train_end_date]
-test_{alias} = {alias}.loc[train_end_date:test_end_date]\n\n""")
+train_{dataframe_name} = {dataframe_name}.loc[:train_end_date]
+test_{dataframe_name} = {dataframe_name}.loc[train_end_date:test_end_date]\n\n""")
 
         if visualize_bool == 'True':
             self.code_stack.append(f"""plt.figure(figsize=(12, 6))
-plt.plot(train_{alias}.index, train_{alias}['{value}'], label='Training Data', color='blue')
-plt.plot(test_{alias}.index, test_{alias}['{value}'], label='Testing Data', color='orange')
-plt.title('{alias} {value} (Training and Testing Split)')
+plt.plot(train_{dataframe_name}.index, train_{dataframe_name}['{value}'], label='Training Data', color='blue')
+plt.plot(test_{dataframe_name}.index, test_{dataframe_name}['{value}'], label='Testing Data', color='orange')
+plt.title('{dataframe_name} {value} (Training and Testing Split)')
 plt.xlabel('Date')
 plt.ylabel('{value}')
 plt.legend()
@@ -257,6 +265,9 @@ plt.show()\n\n""")
         model_name = temp_model_stack.pop()
         q = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
+
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
 
         save_statement = ''
         if "save_chart" in temp_model_stack:
@@ -314,6 +325,9 @@ plt.show()\n\n""")
         q = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
 
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
+
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
@@ -370,6 +384,9 @@ plt.show()\n\n""")
         d = temp_model_stack.pop()
         q = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
+
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
 
         save_statement = ''
         if "save_chart" in temp_model_stack:
@@ -432,6 +449,9 @@ plt.show()\n\n""")
         s = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
 
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
+
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
@@ -486,6 +506,9 @@ plt.show()\n\n""")
         model_name = temp_model_stack.pop()
         p = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
+
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
 
         save_statement = ''
         if "save_chart" in temp_model_stack:
@@ -547,6 +570,9 @@ plt.show()\n\n""")
         q = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
 
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
+
         save_statement = ''
         if "save_chart" in temp_model_stack:
             save_chart_index = temp_model_stack.index("save_chart") - 1
@@ -597,6 +623,9 @@ plt.show()\n\n""")
         lags = self.operand_stack.pop()
         dataframe_name = self.operand_stack.pop()
 
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
+
         self.code_stack.append(f"""#====================ACF PLOT====================\n\n""")
 
         if plot_type == 'Bar':
@@ -619,6 +648,9 @@ plt.show()\n\n''')
         lags = self.operand_stack.pop()
         dataframe_name = self.operand_stack.pop()
 
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
+
         self.code_stack.append(f"""#====================PACF PLOT====================\n\n""")
 
         if plot_type == 'Bar':
@@ -638,6 +670,9 @@ plt.show()\n\n''')
 
     def generate_testStatement(self):
         dataframe_name = self.operand_stack.pop()
+
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
 
         self.code_stack.append(f"""#====================ADF TEST====================
 
@@ -675,6 +710,9 @@ print('\\n')\n\n""")
         loss_function = temp_model_stack.pop()
         seq_length = temp_model_stack.pop()
         dataframe_name = temp_model_stack.pop()
+
+        if dataframe_name not in self.loaded_datasets:
+            raise NameError('A DataFrame has been used that is not defined.')
 
         summary_code = ''
         if 'summary' in temp_model_stack:
